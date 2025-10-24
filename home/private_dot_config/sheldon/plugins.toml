@@ -1,0 +1,23 @@
+shell = "zsh"
+
+# Core completion
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+hooks.post = "zstyle ':completion:*:git-checkout:*' sort false"
+
+# Command line UX
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+[plugins.zsh-history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+
+[plugins.zsh-edit]
+github = "marlonrichert/zsh-edit"
+
+# Visuals
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"

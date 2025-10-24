@@ -1,0 +1,31 @@
+{{ if eq .osid "linux-ubuntu" -}}
+
+{{ $packages := list
+  "bat"
+  "build-essential"
+  "curl"
+  "fd-find"
+  "git"
+  "libreadline-dev"
+  "ripgrep"
+  "shellcheck"
+  "tar"
+  "units"
+  "unzip"
+  "zsh"
+  "btop"
+  "gh" -}}
+
+{{ $sudo := "sudo " -}}
+{{ if eq .chezmoi.username "root" -}}
+{{ $sudo = "" -}}
+{{ end -}}
+
+#!/usr/bin/bash
+
+set -eufo pipefail
+
+{{ $sudo -}} apt update
+{{ $sudo -}} apt install -y {{ $packages | join " " }}
+
+{{ end -}}

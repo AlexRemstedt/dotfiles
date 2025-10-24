@@ -1,0 +1,5 @@
+tmux/.tmux/plugins
+.logs
+js/.cache/bin/node-v22.15.1-linux-x64
+js/alias
+js/versions/node/v22.15.1

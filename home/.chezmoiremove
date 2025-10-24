@@ -1,0 +1,21 @@
+# moved to ~/.config/zsh or ~/.local/state/zsh
+.zshrc
+.zsh_history
+.zprofile
+.zcompdump*
+.zcompcache
+.oh-my-zsh/
+
+.tmux/
+.tmux.conf
+
+.fzf.*
+
+.vim/
+.viminfo
+.rustup/
+.cargo/
+.npm/
+.gitconfig
+local/
+.sudo_as_admin_successful

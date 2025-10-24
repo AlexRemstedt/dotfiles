@@ -1,0 +1,8 @@
+# Use the default config for all other terminals
+export STARSHIP_CONFIG=~/.config/starship/"starship.toml"
+
+eval "$(starship init zsh)"
+
+# Vivid nord theme for ls colors
+(( $+commands[vivid] )) && export LS_COLORS="$(vivid generate nord)"
+

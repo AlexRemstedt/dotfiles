@@ -1,0 +1,12 @@
+# Modular ZSH Configuration
+# Load utility functions first
+source ~/.config/zsh/conf.d/00_utils.zsh
+
+# Core configuration
+load_modules "01_env.zsh" "02_history.zsh"
+
+# Tool integrations, plugins, and completions
+load_modules "03_integrations.zsh"
+
+# User interface and experience
+load_modules "04_aliases.zsh" "05_bindkeys.zsh" "06_prompt.zsh"

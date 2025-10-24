@@ -1,0 +1,16 @@
+# Git configuration template for chezmoi
+# This template adapts based on the machine type (work or home)
+
+[user]
+  name = Remstedt, Alex
+  email = {{ .git_email }}
+
+[alias]
+  cwt = "!sh $HOME/.local/bin/clone-bare-for-worktrees.sh"
+
+[push]
+  default = simple
+  autoSetupRemote = true
+
+[init]
+  defaultBranch = main
