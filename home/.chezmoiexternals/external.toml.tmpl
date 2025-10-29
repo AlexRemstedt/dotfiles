@@ -5,7 +5,7 @@
 
 [".local/bin/fzf"]
 type = "archive-file"
-url = {{ gitHubLatestReleaseAssetURL "junegunn/fzf" "fzf-0.66.0-linux_amd64.tar.gz" | quote }}
+url = {{ gitHubLatestReleaseAssetURL "junegunn/fzf" (printf "fzf-*-linux_%s.tar.gz" .chezmoi.arch) | quote }}
 executable = true
 path = "fzf"
 refreshPeriod = "720h"
@@ -37,7 +37,7 @@ url = "https://github.com/tmux-plugins/tpm.git"
 refreshPeriod = "168h"
 
 [".local/bin/zoxide"]
-url = {{ gitHubLatestReleaseAssetURL "ajeetdsouza/zoxide" "zoxide-0.9.8-x86_64-unknown-linux-musl.tar.gz" | quote }}
+url = {{ gitHubLatestReleaseAssetURL "ajeetdsouza/zoxide" (printf "zoxide-*-%s-unknown-linux-musl.tar.gz" $arch) | quote }}
 type = "archive-file"
 executable = true
 path = "zoxide"
@@ -51,7 +51,7 @@ path = "bob-linux-x86_64/bob"
 refreshPeriod = "721h"
 
 [".local/bin/lazygit"]
-url = {{ gitHubLatestReleaseAssetURL "jesseduffield/lazygit" "lazygit_0.55.1_linux_x86_64.tar.gz" | quote }}
+url = {{ gitHubLatestReleaseAssetURL "jesseduffield/lazygit" "lazygit_*_linux_x86_64.tar.gz" | quote }}
 type = "archive-file"
 executable = true
 path = "lazygit"
