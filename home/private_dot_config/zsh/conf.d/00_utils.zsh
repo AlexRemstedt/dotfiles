@@ -11,3 +11,14 @@ load_modules() {
     done
 }
 
+load_plugin() {
+    local module_file="${HOME}/.config/zsh/plugins/${1}.zsh"
+    [[ -f "$module_file" ]] && source "$module_file"
+}
+
+load_plugins() {
+    for plugin in "$@"; do
+        load_plugin "$plugin"
+    done
+}
+

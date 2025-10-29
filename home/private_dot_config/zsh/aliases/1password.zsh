@@ -1,0 +1,1 @@
+alias op="op.exe"

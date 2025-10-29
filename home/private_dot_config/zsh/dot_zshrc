@@ -10,3 +10,5 @@ load_modules "03_integrations.zsh"
 
 # User interface and experience
 load_modules "04_aliases.zsh" "05_bindkeys.zsh" "06_prompt.zsh"
+
+load_plugins "1password" "git" "python" "tmux"

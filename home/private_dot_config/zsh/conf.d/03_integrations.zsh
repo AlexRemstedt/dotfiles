@@ -13,7 +13,6 @@ compinit -Cd "${XDG_CACHE_HOME}/zsh/zcompdump"
 # # Hook direnv
 # (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
-# Bind zoxide with j
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
 
 # Node
