@@ -31,6 +31,10 @@
   command = "op.exe"
   defaultVault = {{ $op_vault | quote }}
 
+[git]
+  autoCommit = true
+  autoPush = true
+
 [github]
   token = {{ onepasswordRead (printf "op://%s/personal-access-token/credential" $op_vault) | quote }}
 
