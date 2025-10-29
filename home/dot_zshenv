@@ -1,5 +1,4 @@
 # Zsh config directory
-echo "Hello Alex"
 export ZDOTDIR=${HOME}/.config/zsh
 
 # Base directories
