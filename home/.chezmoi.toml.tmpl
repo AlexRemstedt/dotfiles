@@ -35,6 +35,9 @@
   autoCommit = true
   autoPush = true
 
+[edit]
+  command = "nvim"
+
 [github]
   token = {{ onepasswordRead (printf "op://%s/personal-access-token/credential" $op_vault) | quote }}
 
