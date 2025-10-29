@@ -1,0 +1,46 @@
+{{/* boolean feature tags */}}
+{{- $ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
+{{- $work := false -}}{{/* true if this machine is a work machine */}}
+{{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+{{- $personal := false -}}{{/* true if this machine should have personal secrets */}}
+{{- "" -}}
+
+{{- $osID := .chezmoi.os -}}
+{{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
+{{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+{{- $hostname := .chezmoi.hostname -}}
+{{- $op_vault := "development" -}}
+
+{{- if not $ephemeral -}}
+{{-   if eq $hostname "AREMSTEDT" -}}
+{{-     $personal = true -}}
+{{-     $op_vault = "development" -}}
+{{-   else if eq $hostname "PLT5CD331HC4N" -}}
+{{-     $personal = false -}}
+{{-     $work = true -}}
+{{-     $op_vault = "work" -}}
+{{-   else -}}
+{{-     $ephemeral = true -}}
+{{-     $headless = true -}}
+{{-   end -}}
+{{- end -}}
+
+[onepassword]
+  command = "op.exe"
+  defaultVault = {{ $op_vault | quote }}
+
+[github]
+  token = {{ onepasswordRead (printf "op://%s/personal-access-token/credential" $op_vault) | quote }}
+
+[data]
+  ephemeral = {{ $ephemeral }}
+  work = {{ $work }}
+  gitEmail = {{ onepasswordRead (printf "op://%s/github/email" $op_vault) | quote }}
+  gitSigningKey = {{ onepasswordRead (printf "op://%s/ssh-key/public key" $op_vault) | quote }}
+  hostname = {{ $hostname | quote }}
+  headless = {{ $headless }}
+  personal = {{ $personal }}
+  osid = {{ $osID | quote }}
+  op = true

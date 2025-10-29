@@ -3,7 +3,23 @@
 
 [user]
   name = Remstedt, Alex
-  email = {{ .git_email }}
+  email = {{ .gitEmail }}
+  signingkey = {{ .gitSigningKey }}
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/mnt/c/Users/A. Remstedt/AppData/Local/1Password/app/8/op-ssh-sign-wsl"
+
+[commit]
+  gpgsign = true
+
+
+{{ if .op }}
+[core]
+  sshCommand = ssh.exe
+{{ end }}
 
 [alias]
   cwt = "!sh $HOME/.local/bin/clone-bare-for-worktrees.sh"
