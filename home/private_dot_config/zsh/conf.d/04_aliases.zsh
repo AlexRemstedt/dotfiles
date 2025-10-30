@@ -20,5 +20,5 @@ alias .....="cd ../../../.."
 
 alias reload='source ${ZDOTDIR}/.zshrc'
 
-alias nvim-update='update_neovim_plugins.sh'
+alias nvu='update_neovim_plugins.sh'
 
