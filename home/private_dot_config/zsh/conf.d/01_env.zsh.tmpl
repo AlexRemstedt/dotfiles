@@ -15,7 +15,7 @@ export RUFF_CACHE_DIR="${XDG_CACHE_HOME}/ruff"
 export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
 
 # Github
-export CHEZMOI_GITHUB_ACCESS_TOKEN={{ onepasswordRead "op://development/personal-access-token/credential" | quote }}
+export CHEZMOI_GITHUB_ACCESS_TOKEN={{ .personalAccessToken | quote }}
  
 # Bob
 export BOB_HOME="${XDG_DATA_HOME}/bob"

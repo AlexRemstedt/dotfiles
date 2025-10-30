@@ -12,15 +12,17 @@
 
 {{- $hostname := .chezmoi.hostname -}}
 {{- $op_vault := "development" -}}
+{{- $ssh_public_key := "op://development/personal-machine/public key" -}}
+{{- $personal_access_token := "op://development/personal-access-token/credential" -}}
 
 {{- if not $ephemeral -}}
 {{-   if eq $hostname "AREMSTEDT" -}}
 {{-     $personal = true -}}
-{{-     $op_vault = "development" -}}
 {{-   else if eq $hostname "PLT5CD331HC4N" -}}
 {{-     $personal = false -}}
 {{-     $work = true -}}
 {{-     $op_vault = "work" -}}
+{{-     $ssh_public_key = "op://work/work-machine/public key" -}}
 {{-   else -}}
 {{-     $ephemeral = true -}}
 {{-     $headless = true -}}
@@ -45,7 +47,8 @@
   ephemeral = {{ $ephemeral }}
   work = {{ $work }}
   gitEmail = {{ onepasswordRead (printf "op://%s/github/email" $op_vault) | quote }}
-  gitSigningKey = {{ onepasswordRead (printf "op://%s/ssh-key/public key" $op_vault) | quote }}
+  sshPublicKey = {{ onepasswordRead $ssh_public_key | quote }}
+  personalAccessToken = {{ onepasswordRead $personal_access_token | quote }}
   hostname = {{ $hostname | quote }}
   headless = {{ $headless }}
   personal = {{ $personal }}
