@@ -1,2 +1,5 @@
 gui:
   screenMode: half
+
+git:
+  overrideGpg: true

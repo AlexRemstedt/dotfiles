@@ -9,8 +9,13 @@
 [gpg]
   format = ssh
 
+{{ if .work }}
+[gpg "ssh"]
+  program = "/mnt/c/Users/ARem/AppData/Local/1Password/app/8/op-ssh-sign-wsl"
+{{ else }}
 [gpg "ssh"]
   program = "/mnt/c/Users/A. Remstedt/AppData/Local/1Password/app/8/op-ssh-sign-wsl"
+{{ end }}
 
 [commit]
   gpgsign = true
