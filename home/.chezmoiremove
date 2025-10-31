@@ -11,11 +11,7 @@
 
 .fzf.*
 
-.vim/
-.viminfo
 .rustup/
 .cargo/
-.npm/
 .gitconfig
 local/
-.sudo_as_admin_successful
