@@ -16,3 +16,4 @@ bindkey '^[[B' history-beginning-search-forward-end
 bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
 
+bindkey -s '^f' "tmux-sessionizer\n"
