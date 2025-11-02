@@ -13,6 +13,6 @@ git -C "$NVIM_CONFIG_HOME" add lazy-lock.json lazyvim.json
 if git -C "$NVIM_CONFIG_HOME" diff --cached --quiet; then
   echo "No changes to commit"
 else
-  git -C "$NVIM_CONFIG_HOME" commit -m "chore(nvim): update nvim plugins" && \
+  git -C "$NVIM_CONFIG_HOME" commit -m "chore: update lock-file" && \
   git -C "$NVIM_CONFIG_HOME" push || echo "Failed to update nvim config"
 fi
