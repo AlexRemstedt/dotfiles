@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+#!/usr/bin/env zsh
 
 if [[ -z "$NVIM_CONFIG_HOME" ]]; then
   echo "Error: NVIM_CONFIG_HOME is not set."
