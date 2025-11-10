@@ -12,7 +12,7 @@ load_modules() {
 }
 
 load_plugin() {
-    local module_file="${HOME}/.config/zsh/plugins/${1}.zsh"
+    local module_file="${HOME}/.config/zsh/plugin/${1}.zsh"
     [[ -f "$module_file" ]] && source "$module_file"
 }
 
