@@ -1,3 +1,5 @@
+fpath=("${(@)fpath:#/usr/share/zsh/vendor-completions}")
+
 autoload -Uz compinit
 compinit
 
