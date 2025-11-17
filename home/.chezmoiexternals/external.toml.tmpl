@@ -3,6 +3,13 @@
 {{-   if eq .chezmoi.arch "amd64" -}}{{- $arch = "x86_64" -}}{{- end -}}
 {{-   if eq .chezmoi.arch "arm64" -}}{{- $arch = "aarch64" -}}{{- end }}
 
+[".local/bin/macchina"]
+type = "archive-file"
+url = {{ gitHubLatestReleaseAssetURL "Macchina-CLI/macchina" (printf "macchina-*-linux-gnu-%s.tar.gz" $arch) | quote }}
+executable = true
+path = "macchina"
+refreshPeriod = "720h"
+
 [".local/bin/fzf"]
 type = "archive-file"
 url = {{ gitHubLatestReleaseAssetURL "junegunn/fzf" (printf "fzf-*-linux_%s.tar.gz" .chezmoi.arch) | quote }}
