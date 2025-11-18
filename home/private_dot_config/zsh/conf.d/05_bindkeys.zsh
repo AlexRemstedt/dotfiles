@@ -15,6 +15,7 @@ bindkey '^[[B' history-beginning-search-forward-end
 # History substring search
 bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
-bindkey -s '^g' "lazygit\n"
 
+bindkey -s '^g' "lazygit\n"
 bindkey -s '^f' "tmux-sessionizer\n"
+bindkey -s '^e' "explorer.exe .\n"
