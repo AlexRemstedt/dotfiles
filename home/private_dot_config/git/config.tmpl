@@ -1,6 +1,3 @@
-# Git configuration template for chezmoi
-# This template adapts based on the machine type (work or home)
-
 [user]
   name = Remstedt, Alex
   email = {{ .gitEmail }}
@@ -11,7 +8,7 @@
 
 {{ if .work }}
 [gpg "ssh"]
-  program = "/mnt/c/Users/ARem/AppData/Local/1Password/app/8/op-ssh-sign-wsl"
+  program = "/mnt/c/Users/ARem/AppData/Local/1Password/app/8/op-ssh-sign"
 {{ else }}
 [gpg "ssh"]
   program = "/mnt/c/Users/A. Remstedt/AppData/Local/1Password/app/8/op-ssh-sign-wsl"
