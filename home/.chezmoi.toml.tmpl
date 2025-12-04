@@ -13,7 +13,7 @@
 {{- $hostname := .chezmoi.hostname -}}
 {{- $op_vault := "development" -}}
 {{- $ssh_public_key := "op://development/personal-machine/public key" -}}
-{{- $personal_access_token := "op://development/personal-access-token/credential" -}}
+{{- $personal_access_token := "op://development/personal-machine-pat/credential" -}}
 
 {{- if not $ephemeral -}}
 {{-   if eq $hostname "AREMSTEDT" -}}
@@ -23,6 +23,7 @@
 {{-     $work = true -}}
 {{-     $op_vault = "work" -}}
 {{-     $ssh_public_key = "op://work/work-machine/public key" -}}
+{{-     $personal_access_token := "op://work/work-machine-pat/credential" -}}
 {{-   else -}}
 {{-     $ephemeral = true -}}
 {{-     $headless = true -}}
@@ -41,7 +42,7 @@
   command = "nvim"
 
 [github]
-  token = {{ onepasswordRead (printf "op://%s/personal-access-token/credential" $op_vault) | quote }}
+  token = {{ $personal_access_token | quote }}
 
 [data]
   ephemeral = {{ $ephemeral }}
