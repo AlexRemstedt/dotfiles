@@ -77,4 +77,11 @@ url = "https://raw.githubusercontent.com/ThePrimeagen/tmux-sessionizer/refs/head
 refreshPeriod = "168h"
 executable = true
 
+[".local/bin/git-flow"]
+type = "archive-file"
+url = {{ gitHubLatestReleaseAssetURL "gittower/git-flow-next" "git-flow-next-*-linux-amd64.tar.gz" | quote}}
+path = "git-flow-v1.0.0-linux-amd64"
+executable = true
+refreshPeriod = "168h"
+
 {{- end }}
