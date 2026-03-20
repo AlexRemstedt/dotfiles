@@ -17,7 +17,7 @@ try_todo_file() {
   # Try for todo.md in the current directory
   local todo_path="$dir/todo.md"
   if [[ -f $todo_path ]]; then
-    tmux neww -n todo "$EDITOR \"$todo_path\""
+    tmux neww -n todo "$TODO_EDITOR \"$todo_path\""
     return 0
   else
     parent_dir=$(dirname "$dir")
