@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-# fdtodo - Author: Alex Remstedt
+# fdtodo
+# Author: Alex Remstedt
+# Created on: 03/03/2026
 #
 # This script aims to recursively move look for TODO.md files based on the cwd
 # It will start by looking at the cwd and then recursively move up the path
 # If it finds the todo file it will open it in a new tmux window
 # else it will create a new one at the present working directory
+
+TODO_EDITOR=vim
 
 try_todo_file() {
   local dir="$1"
@@ -17,7 +21,7 @@ try_todo_file() {
   # Try for todo.md in the current directory
   local todo_path="$dir/todo.md"
   if [[ -f $todo_path ]]; then
-    tmux neww -n todo "$TODO_EDITOR \"$todo_path\""
+    ${TODO_EDITOR:-${EDITOR:-vim}} "$todo_path"
     return 0
   else
     parent_dir=$(dirname "$dir")
@@ -25,4 +29,6 @@ try_todo_file() {
   fi
 }
 
-try_todo_file "$PWD"
+if ! try_todo_file "$PWD"; then
+  read -r -p "Press any key to close"
+fi
