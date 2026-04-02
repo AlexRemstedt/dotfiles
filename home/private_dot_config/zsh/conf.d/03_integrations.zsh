@@ -16,5 +16,8 @@ compinit -Cd "${XDG_CACHE_HOME}/zsh/zcompdump"
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
 
 # Node
-(( $+commands[fnm] )) && eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+if (( $+commands[fnm] )); then
+  [[ -d "/run/user/${UID}" ]] || export XDG_RUNTIME_DIR="/tmp/runtime-${UID}"
+  eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+fi
 (( ! $+commands[node] && $+commands[fnm] )) && fnm install latest
