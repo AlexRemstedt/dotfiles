@@ -1,4 +1,4 @@
-(( $+commands[bat] )) && alias cat="bat -pp"
+(( $+commands[batcat] )) && alias cat="batcat -pp"
 
 if (( $+commands[eza] )); then
   alias ls="eza"
