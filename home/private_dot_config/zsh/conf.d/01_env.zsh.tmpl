@@ -32,6 +32,10 @@ path+=("${CARGO_HOME}/bin")
 export POETRY_HOME="$HOME/.local/share/pypoetry"
 path+=("${POETRY_HOME}/bin")
 
+# Neovim virtualenv
+export NVIM_PYTHON_ENV="${XDG_DATA_HOME}/virtualenvs/neovim"
+path+=("${NVIM_PYTHON_ENV}/bin")
+
 # Fnm
 export FNM_HOME="${XDG_DATA_HOME}/fnm"
 path+=("${FNM_HOME}/bin")
@@ -44,3 +48,8 @@ export COLORTERM="truecolor"
 
 # Remove broken vendor-completions path
 fpath=("${(@)fpath:#/usr/share/zsh/vendor-completions}")
+
+# Start tmux if not already inside a tmux session
+if [[ -z "$TMUX" ]] && [[ "$TERM_PROGRAM" != "vscode" ]]; then
+  exec tmux new-session -A -s main
+fi
