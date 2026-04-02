@@ -13,16 +13,15 @@ TODO_EDITOR=vim
 try_todo_file() {
   local dir="$1"
   # Break the recursion if we have reached the home directory
-  if [[ "$dir" == "$HOME" ]]; then
-    echo "Reached home directory, no TODO.md file found."
-    return 1
-  fi
 
   # Try for todo.md in the current directory
   local todo_path="$dir/todo.md"
   if [[ -f $todo_path ]]; then
     ${TODO_EDITOR:-${EDITOR:-vim}} "$todo_path"
     return 0
+  elif [[ "$dir" == "$HOME" ]]; then
+    echo "Reached home directory, no TODO.md file found."
+    return 1
   else
     parent_dir=$(dirname "$dir")
     try_todo_file "$parent_dir"
