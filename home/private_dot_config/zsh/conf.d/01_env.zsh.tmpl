@@ -49,7 +49,3 @@ export COLORTERM="truecolor"
 # Remove broken vendor-completions path
 fpath=("${(@)fpath:#/usr/share/zsh/vendor-completions}")
 
-# Start tmux if not already inside a tmux session
-if [[ -z "$TMUX" ]] && [[ "$TERM_PROGRAM" != "vscode" ]]; then
-  exec "$XDG_BIN_HOME/tmux-sessionizer" "$HOME"
-fi
