@@ -8,7 +8,7 @@
 
 {{ if .work }}
 [gpg "ssh"]
-	program = /mnt/c/Users/ARem/AppData/Local/Microsoft/WindowsApps/op-ssh-sign.exe
+	program = "/mnt/c/Users/ARem/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
 {{ else }}
 [gpg "ssh"]
   program = "/mnt/c/Users/A. Remstedt/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
@@ -20,7 +20,7 @@
 
 {{ if .op }}
 [core]
-  sshCommand = ssh.exe
+  sshCommand = "/mnt/c/Windows/System32/OpenSSH/ssh.exe"
 {{ end }}
 
 [alias]
