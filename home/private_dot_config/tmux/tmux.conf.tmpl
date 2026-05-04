@@ -27,7 +27,11 @@ bind -r E run-shell "env"
 bind -r G run-shell "~/.local/bin/tmux-sessionizer ~/.config/"
 bind -r S run-shell "~/.local/bin/tmux-sessionizer ~/.local/bin/"
 bind -r Z run-shell "~/.local/bin/tmux-sessionizer ~/.local/share/chezmoi/"
-bind -r H run-shell "~/.local/bin/tmux-sessionizer ~"
+bind -r H run-shell "~/.local/bin/tmux-sessionizer
+bind-r M-h run-shell "tmux neww tmux-sessionizer -s 0"
+bind-r M-t run-shell "tmux neww tmux-sessionizer -s 1"
+bind-r M-n run-shell "tmux neww tmux-sessionizer -s 2"
+bind-r M-s run-shell "tmux neww tmux-sessionizer -s 3" ~"
 unbind C-[
 
 # ============================================
