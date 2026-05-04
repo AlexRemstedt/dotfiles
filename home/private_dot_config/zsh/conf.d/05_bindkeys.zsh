@@ -18,3 +18,10 @@ bindkey '^N' history-substring-search-down
 bindkey -s '^g' "lazygit\n"
 
 bindkey -s '^f' "tmux-sessionizer\n"
+
+# tmux-sessionizer
+bindkey -s ^f "tmux-sessionizer\n"
+bindkey -s '\eh' "tmux-sessionizer -s 0\n"
+bindkey -s '\et' "tmux-sessionizer -s 1\n"
+bindkey -s '\en' "tmux-sessionizer -s 2\n"
+bindkey -s '\es' "tmux-sessionizer -s 3\n"
