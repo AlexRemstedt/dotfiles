@@ -14,7 +14,6 @@ set -g status-left-length 200
 set -g mouse on
 set escape-time 0
 
-bind r source-file "${XDG_CONFIG_HOME}/tmux/tmux.conf"
 bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
@@ -29,9 +28,9 @@ bind -r S run-shell "~/.local/bin/tmux-sessionizer ~/.local/bin/"
 bind -r Z run-shell "~/.local/bin/tmux-sessionizer ~/.local/share/chezmoi/"
 bind -r H run-shell "~/.local/bin/tmux-sessionizer "$HOME"
 bind-r M-h run-shell "tmux neww tmux-sessionizer -s 0"
-bind-r M-t run-shell "tmux neww tmux-sessionizer -s 1"
-bind-r M-n run-shell "tmux neww tmux-sessionizer -s 2"
-bind-r M-s run-shell "tmux neww tmux-sessionizer -s 3"
+bind-r M-j run-shell "tmux neww tmux-sessionizer -s 1"
+bind-r M-k run-shell "tmux neww tmux-sessionizer -s 2"
+bind-r M-l run-shell "tmux neww tmux-sessionizer -s 3"
 unbind C-[
 
 # ============================================
