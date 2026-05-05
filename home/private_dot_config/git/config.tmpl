@@ -23,8 +23,33 @@
   sshCommand = "/mnt/c/Windows/System32/OpenSSH/ssh.exe"
 {{ end }}
 
+[core]
+  pager = delta
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+  navigate = true
+  line-numbers = true
+  side-by-side = true
+
+[merge]
+  conflictStyle = zdiff3
+
+[diff]
+  tool = diffsitter
+  colorMoved = default
+
+[difftool]
+  prompt = false
+
+[difftool "diffsitter"]
+  cmd = diffsitter "$LOCAL" "$REMOTE"
+
 [alias]
   cwt = "!sh $HOME/.local/bin/clone-bare-for-worktrees.sh"
+  dst = difftool
 
 [push]
   default = simple

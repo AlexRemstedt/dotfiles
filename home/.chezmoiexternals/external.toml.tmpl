@@ -84,6 +84,28 @@ path = "fnm"
 executable = true
 refreshPeriod = "72h"
 
+{{- $deltaVer := (gitHubLatestRelease "dandavison/delta").TagName }}
+[".local/bin/delta"]
+type = "archive-file"
+url = {{ gitHubLatestReleaseAssetURL "dandavison/delta" (printf "delta-*-%s-unknown-linux-gnu.tar.gz" $arch) | quote }}
+path = "delta-{{ $deltaVer }}-{{ $arch }}-unknown-linux-gnu/delta"
+executable = true
+refreshPeriod = "720h"
+
+[".local/bin/diffsitter"]
+type = "archive-file"
+url = {{ gitHubLatestReleaseAssetURL "afnanenayet/diffsitter" (printf "diffsitter-%s-unknown-linux-gnu.tar.gz" $arch) | quote }}
+path = "diffsitter"
+executable = true
+refreshPeriod = "720h"
+
+[".local/bin/git-diffsitter"]
+type = "archive-file"
+url = {{ gitHubLatestReleaseAssetURL "afnanenayet/diffsitter" (printf "diffsitter-%s-unknown-linux-gnu.tar.gz" $arch) | quote }}
+path = "git-diffsitter"
+executable = true
+refreshPeriod = "720h"
+
 [".local/bin/tmux-sessionizer"]
 type = "file"
 url = "https://raw.githubusercontent.com/ThePrimeagen/tmux-sessionizer/refs/heads/master/tmux-sessionizer"
