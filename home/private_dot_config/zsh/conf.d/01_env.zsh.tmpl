@@ -16,6 +16,10 @@ export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
 
 # Github
 export GITHUB_TOKEN={{ .personalAccessToken | quote }}
+
+# Quarto
+export QUARTO_HOME="${XDG_DATA_HOME}/quarto"
+path+=("${QUARTO_HOME}/bin")
  
 # Bob
 export BOB_HOME="${XDG_DATA_HOME}/bob"
@@ -49,3 +53,4 @@ export COLORTERM="truecolor"
 # Remove broken vendor-completions path
 fpath=("${(@)fpath:#/usr/share/zsh/vendor-completions}")
 
+# vim: ft=zsh
