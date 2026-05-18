@@ -15,12 +15,10 @@ bindkey '^[[B' history-beginning-search-forward-end
 # History substring search
 bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
-bindkey -s '^g' "lazygit\n"
 
-bindkey -s '^f' "tmux-sessionizer\n"
 
 # tmux-sessionizer
-bindkey -s ^f "tmux-sessionizer\n"
+bindkey -s '^f' "tmux-sessionizer\n"
 bindkey -s '\eh' "tmux-sessionizer -s 0\n"
 bindkey -s '\ej' "tmux-sessionizer -s 1\n"
 bindkey -s '\ek' "tmux-sessionizer -s 2\n"
