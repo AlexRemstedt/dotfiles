@@ -37,3 +37,6 @@ chown
 make
 sqlite
 chezmoi
+{{ if .work }}
+az-devops
+{{ end }}
