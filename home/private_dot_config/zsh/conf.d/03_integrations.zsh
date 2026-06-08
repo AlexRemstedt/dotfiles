@@ -4,16 +4,19 @@ autoload -Uz compinit
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
 compinit -Cd "${XDG_CACHE_HOME}/zsh/zcompdump"
 
-# Set up fzf key bindings and fuzzy completion
+(( $+commands[chezmoi] )) && eval "$(chezmoi completion zsh)"
+
 (( $+commands[fzf] )) && source <(fzf --zsh)
 
-# Bind atuin with ctrl-r but not up arrow
 (( $+commands[atuin] )) && eval "$(atuin init zsh --disable-up-arrow)"
 
-# # Hook direnv
-# (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
-
 (( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
+
+(( $+commands[tldr] )) && eval "$(tldr --print-completion zsh)"
+
+(( $+commands[gh] )) && eval "$(gh completion -s zsh)"
+
+(( $+commands[git-flow] )) || eval "$(git-flow completion zsh)"
 
 # Node
 if (( $+commands[fnm] )); then
