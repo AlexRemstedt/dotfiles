@@ -1,0 +1,10 @@
+[Default Applications]
+text/html=zen-browser.desktop
+x-scheme-handler/http=zen-browser.desktop
+x-scheme-handler/https=zen-browser.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
+image/jpeg=feh.desktop
+image/png=feh.desktop
+image/webp=feh.desktop
+image/bmp=feh.desktop
+image/gif=feh.desktop
