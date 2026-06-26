@@ -26,6 +26,8 @@ alias nvu='update_neovim_plugins.sh'
 
 alias tms='tmux-sessionizer'
 
+alias fd="fdfind"
+
 if (( $+commands[gh] )); then
   alias gh="GITHUB_TOKEN= gh"
 fi
