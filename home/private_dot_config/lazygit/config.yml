@@ -3,3 +3,8 @@ gui:
 
 git:
   overrideGpg: true
+
+os:
+  edit: "nvim {{filename}}"
+  editAtLine: "nvim +{{line}} {{filename}}"
+  editAtLineAndWait: "nvim +{{line}} {{filename}} && notify-send 'File opened'"
