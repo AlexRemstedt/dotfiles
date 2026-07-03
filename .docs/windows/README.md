@@ -85,6 +85,82 @@ the source tree, with `.chezmoiignore` dropping `AppData` off-Windows and
 cross-platform example) keeps Windows Terminal config under
 `dot_config/windows_terminal/` and ignores it off-Windows.
 
+### Deep dive: dir-per-OS chezmoi repos — verified, with mechanism
+
+The hunch that dir-OS-structured chezmoi repos exist is correct. The
+canonical example is
+[shunk031/dotfiles](https://github.com/shunk031/dotfiles), which is
+OS-directory-structured at every level — verified by cloning:
+
+```
+home/
+├── .chezmoiscripts/
+│   ├── common/                      run_once_*-install-mise.sh.tmpl, …
+│   ├── macos/                       run_once_before_03-install-brew.sh.tmpl, …
+│   └── ubuntu/                      run_once_10-install-docker.sh.tmpl, …
+├── .chezmoitemplates/
+│   ├── chezmoiignore.d/
+│   │   ├── common
+│   │   ├── macos
+│   │   └── ubuntu/{common,client,server}
+│   └── chezmoiexternal.d/
+│       ├── common.yaml.tmpl
+│       ├── macos.yaml.tmpl
+│       └── ubuntu.yaml.tmpl
+├── .chezmoiignore                   ← 12-line assembler (below)
+├── .chezmoiexternal.yaml.tmpl       ← 8-line assembler (below)
+└── dot_tmux.conf.d/os/…             ← per-OS fragments in the dotfiles too
+```
+
+The whole `.chezmoiignore` is just includes:
+
+```
+{{ template "chezmoiignore.d/common" . }}
+{{ if eq .chezmoi.os "darwin" -}}
+{{   template "chezmoiignore.d/macos" . }}
+{{ else if eq .chezmoi.os "linux" -}}
+{{   template "chezmoiignore.d/ubuntu/common" . }}
+{{   if eq .system "client" -}}
+{{     template "chezmoiignore.d/ubuntu/client" . }}
+{{   end -}}
+{{ end -}}
+```
+
+and likewise `.chezmoiexternal.yaml.tmpl`:
+
+```
+{{ template "chezmoiexternal.d/common.yaml.tmpl" . }}
+{{ if eq .chezmoi.os "darwin" -}}
+{{   template "chezmoiexternal.d/macos.yaml.tmpl" . }}
+{{ else if (and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.idLike "debian")) -}}
+{{   template "chezmoiexternal.d/ubuntu.yaml.tmpl" . }}
+{{ else -}}
+{{   fail (printf "Unknown OS for client system: %s" .chezmoi.os) }}
+{{ end -}}
+```
+
+Why this works while a top-level `windows/` home-remap can't: files inside
+`.chezmoiscripts/` and `.chezmoitemplates/` don't map to target paths, so
+chezmoi is free to let you organize them in arbitrary — e.g. per-OS —
+subdirectories. Regular dotfiles keep their 1:1 source→target mapping, and
+the per-OS look there comes from conf.d-style fragments (e.g.
+`.tmux.conf.d/os/ubuntu_client.conf`) with the other OS's fragments listed
+in that OS's ignore file.
+
+For literal per-OS *roots*, upstream is explicit that it's unsupported:
+`.chezmoiroot` is deliberately not a template
+([discussion #3083](https://github.com/twpayne/chezmoi/discussions/3083),
+[#1433](https://github.com/twpayne/chezmoi/discussions/1433)); a "mapping
+file" that would allow per-OS target relocation is a "maybe, someday" v3
+idea. The accepted answers are separate repos, or the multi-instance
+layering documented in
+[discussion #2574](https://github.com/twpayne/chezmoi/discussions/2574):
+several chezmoi instances with distinct `--source` + `--config` pairs
+(e.g. `~/.local/share/chezmoi` + `~/.local/share/chezmoi.base`), the base
+layer pulled in via `.chezmoiexternals` and applied from a `run_after`
+script. Powerful, but two states to keep coherent — overkill for one
+Windows laptop.
+
 ### Upstream note — twpayne/dotfiles
 
 Our `.chezmoi.toml.tmpl` derives from
@@ -96,9 +172,13 @@ gained a fallback we should back-port: unknown hostname + interactive TTY →
 
 ### What this changes in our plan
 
-1. **Adopt `.chezmoiscripts/linux/` + `.chezmoiscripts/windows/`** with the
-   extension-glob ignore rules — cleaner than templating a guard into every
-   script, and gives the per-OS directory layout for scripts.
+1. **Adopt the shunk031 layout**: `.chezmoiscripts/{common,linux,windows}/`
+   for scripts, `.chezmoitemplates/chezmoiignore.d/<os>` fragments assembled
+   by a tiny `.chezmoiignore`, and — directly relevant to our monolithic
+   `external.toml.tmpl` — `.chezmoitemplates/chezmoiexternal.d/<os>`
+   fragments assembled by the externals file, with a `fail` for unknown
+   OSes. Every OS-varying piece of machinery then lives in an OS-named
+   directory.
 2. **Adopt the merge-template trick** for Windows Terminal settings
    regardless of pattern — never blind-overwrite `settings.json`.
 3. **Package lists move to `.chezmoidata/packages.yaml`** keyed by profile;
