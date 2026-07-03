@@ -68,7 +68,41 @@ native Windows).
 
 ## Phase 2 — thin native Windows layer (optional)
 
-Only if managing the Windows side from this repo turns out to be worth it:
+Only if managing the Windows side from this repo turns out to be worth it.
+
+### Layout: OS worlds as separate directories
+
+A literal top-level `windows/` + `linux/` split is not possible in chezmoi:
+source paths map 1:1 onto target paths under `$HOME` (a source file
+`windows/foo.ps1` would be created at `~/windows/foo.ps1`), and
+`.chezmoiroot` is read before templating so it cannot vary per OS. Setups
+with real per-OS top-level dirs are either two separate repos or
+symlink-based managers (stow, bare git).
+
+The chezmoi-idiomatic equivalent gets the same separation because Windows
+keeps its config under `AppData/` and `Documents/` — directories under
+`$HOME` — while unix config lives under `.config/`. One templated
+`.chezmoiignore` enforces the split:
+
+```
+home/
+├── .chezmoiignore.tmpl          ← the per-OS gate
+├── private_dot_config/…         ← Linux/WSL world
+├── private_dot_local/…          ← Linux/WSL world
+├── dot_zshenv                   ← Linux/WSL world
+├── AppData/…                    ← Windows world (Windows Terminal settings)
+├── Documents/PowerShell/…       ← Windows world (PowerShell profile)
+└── .chezmoiscripts/
+    ├── run_once_*.sh.tmpl       ← guarded by .osid / .wsl
+    └── run_once_*.ps1.tmpl      ← Windows-only
+```
+
+Everything else stays shared: one repo, one `chezmoi init`, one
+`.chezmoi.toml.tmpl` whose feature flags and 1Password data feed both
+worlds' templates. That sharing is the main advantage over a two-repo
+split.
+
+### Pieces
 
 - **`.chezmoiignore`** (templated): ignore all unix config on
   `windows`, ignore windows files elsewhere:
@@ -79,8 +113,8 @@ Only if managing the Windows side from this repo turns out to be worth it:
   .local/**
   .zshenv
   {{ else }}
-  Documents/PowerShell/**
   AppData/**
+  Documents/**
   {{ end }}
   ```
 
