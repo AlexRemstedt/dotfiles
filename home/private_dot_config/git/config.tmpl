@@ -38,14 +38,14 @@
   conflictStyle = zdiff3
 
 [diff]
-  tool = diffsitter
+  tool = vimdiff
   colorMoved = default
 
 [difftool]
   prompt = false
 
-[difftool "diffsitter"]
-  cmd = diffsitter "$LOCAL" "$REMOTE"
+[difftool "vimdiff"]
+  cmd = vimdiff "$LOCAL" "$REMOTE"
 
 [alias]
   cwt = "!sh $HOME/.local/bin/clone-bare-for-worktrees.sh"
