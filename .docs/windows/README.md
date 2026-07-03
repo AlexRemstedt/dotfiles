@@ -3,6 +3,116 @@
 Getting a new Windows laptop productive with this repo. This documents the
 recommended strategy and the concrete changes needed.
 
+## Field research: how others do multi-OS chezmoi
+
+Five public repos studied (2026-07). Three distinct patterns emerged.
+
+### Pattern A — one tree, two applies (jwnmulder/dotfiles)
+
+[jwnmulder/dotfiles](https://github.com/jwnmulder/dotfiles) targets Linux,
+WSL2, *and* native Windows from a single `home/` root. `chezmoi init` runs
+twice on a Windows laptop: once in PowerShell, once inside WSL. Separation
+mechanics:
+
+- **Blanket extension globs in `.chezmoiignore.tmpl`** do most of the work:
+
+  ```
+  {{ if ne .chezmoi.os "linux" }}
+  **/*.sh
+  {{ end }}
+  {{ if ne .chezmoi.os "windows" }}
+  **/*.bat
+  **/*.ps1
+  Documents
+  AppData
+  {{ end }}
+  ```
+
+- **`.chezmoiscripts/linux/` and `.chezmoiscripts/windows/`** — chezmoi
+  runs scripts in subdirectories of `.chezmoiscripts`, and the extension
+  globs above stop the wrong OS from running them. This gives the
+  per-OS-directory layout for all setup scripts.
+- **WSL detection**: `.chezmoi.kernel.osrelease | lower | contains
+  "microsoft"` → `is_wsl` data flag. Also captures the Windows username
+  from inside WSL (`cmd.exe /C echo %USERNAME%` — same trick as our
+  `run_once_create_symlinks.sh`) into a `wsl.win_username` data value.
+- **Profile by prompt, not hostname**: a `promptString` loop asks
+  `personal/work1/work2` on first init, overridable via env var for CI.
+- **Package lists as data**: `.chezmoidata/packages.yaml` holds
+  `winget_packages` / `scoop_packages` / apt lists keyed `all` /
+  `personal` / `work1`; `run_onchange` scripts consume them, so adding a
+  package is a data edit, not a script edit.
+- **`.ps1` interpreter config**: chezmoi needs `[interpreters.ps1]` in the
+  config to execute PowerShell scripts, wrapped in `cmd /c` and preferring
+  `pwsh.exe`.
+- **Windows-side WSL config is managed by the *Windows* apply**:
+  `.wslgconfig` lives in the Windows user profile, so the native apply owns
+  it — a subtlety a WSL-only setup would miss.
+- **OneDrive gotcha**: when Documents is OneDrive-redirected,
+  `$HOME\Documents` isn't where PowerShell reads its profile; a
+  `run_after` script detects the redirect and copies the profile over.
+
+### Pattern B — WSL-only chezmoi that reaches across the boundary (felipecrs/dotfiles)
+
+[felipecrs/dotfiles](https://github.com/felipecrs/dotfiles) never runs
+chezmoi natively on Windows. One apply inside WSL configures *both* worlds
+via interop:
+
+- A top-level `windows/` dir (outside `.chezmoiroot = home`, so never a
+  chezmoi target) holds Windows payloads: Windows Terminal settings and a
+  PowerShell profile. This is the literal "windows stuff in its own dir"
+  layout — possible precisely because those files are script *inputs*, not
+  managed targets.
+- `run_after_*-on-windows.sh.tmpl` scripts resolve the Windows home with
+  `wslvar USERPROFILE` + `wslpath` (from the `wslu` package), then write
+  into `AppData\Local\Packages\Microsoft.WindowsTerminal_.../LocalState`,
+  install winget packages by calling `winget.exe` directly from WSL
+  (even bootstrapping WinGet itself via `PowerShell.exe Add-AppxPackage`),
+  and install Nerd Fonts.
+- **Merge, don't overwrite**: Windows Terminal settings are patched by
+  piping the live `settings.json` through
+  `chezmoi execute-template --with-stdin` with a `modify_settings.json`
+  template, writing back only if changed. Windows Terminal rewrites its own
+  settings file, so a blind overwrite would fight it.
+
+### Pattern C — native Windows in-tree (Jaykul, renemarc)
+
+[Jaykul/dotfiles](https://github.com/Jaykul/dotfiles) manages
+`AppData/Roaming/powershell/profile.ps1`, jj, and OBS config directly in
+the source tree, with `.chezmoiignore` dropping `AppData` off-Windows and
+`stat`-based conditions handling OneDrive-redirected Documents dirs.
+[renemarc/dotfiles](https://github.com/renemarc/dotfiles) (the classic
+cross-platform example) keeps Windows Terminal config under
+`dot_config/windows_terminal/` and ignores it off-Windows.
+
+### Upstream note — twpayne/dotfiles
+
+Our `.chezmoi.toml.tmpl` derives from
+[twpayne/dotfiles](https://github.com/twpayne/dotfiles). Upstream has since
+gained a fallback we should back-port: unknown hostname + interactive TTY →
+`promptBoolOnce . "headless" "headless"` / `promptBoolOnce . "ephemeral"
+"ephemeral"` instead of silently assuming ephemeral. (Upstream also treats
+*native* Windows as ephemeral — consistent with WSL-first.)
+
+### What this changes in our plan
+
+1. **Adopt `.chezmoiscripts/linux/` + `.chezmoiscripts/windows/`** with the
+   extension-glob ignore rules — cleaner than templating a guard into every
+   script, and gives the per-OS directory layout for scripts.
+2. **Adopt the merge-template trick** for Windows Terminal settings
+   regardless of pattern — never blind-overwrite `settings.json`.
+3. **Package lists move to `.chezmoidata/packages.yaml`** keyed by profile;
+   works for apt today and winget later.
+4. **Back-port `promptBoolOnce`** for unknown hostnames.
+5. **Phase 2 has two viable shapes.** Start with **Pattern B** (Windows
+   Terminal + winget configured from WSL `run_after` scripts, payloads in a
+   real top-level `windows/` dir): it fits this repo's existing WSL lean
+   (`op.exe`, `cmd.exe` symlinks), needs no second `chezmoi init`, and no
+   `.ps1` interpreter plumbing. Graduate to **Pattern A** (second native
+   apply managing `AppData/` + `Documents/`) only if the Windows side grows
+   real config — PowerShell profile, `.wslgconfig`, scoop — beyond what
+   interop scripts comfortably cover.
+
 ## Strategy: WSL2-first, thin native layer
 
 The whole stack here (zsh, sheldon, tmux, nvim, the ~20 Linux binaries in
@@ -69,6 +179,9 @@ native Windows).
 ## Phase 2 — thin native Windows layer (optional)
 
 Only if managing the Windows side from this repo turns out to be worth it.
+Per the field research above, prefer starting with Pattern B (WSL interop
+scripts + top-level `windows/` payload dir) and treat everything below —
+the native-apply layout — as the Pattern A graduation path.
 
 ### Layout: OS worlds as separate directories
 
