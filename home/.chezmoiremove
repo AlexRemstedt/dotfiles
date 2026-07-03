@@ -12,7 +12,5 @@
 .fzf.*
 
 .config/zsh/plugins/
-.rustup/
-.cargo/
 .gitconfig
 local/
