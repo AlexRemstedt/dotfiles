@@ -13,7 +13,8 @@
 {{- $hostname := .chezmoi.hostname -}}
 {{- $op_vault := "development" -}}
 {{- $ssh_public_key := "op://development/personal-machine/public key" -}}
-{{- $personal_access_token := "op://development/chezmoi/credential" -}}
+{{- $personal_access_token := "op://development/personal-machine-pat/credential" -}}
+{{- $chezmoi_token := "op://development/chezmoi/credential" -}}
 
 {{- if not $ephemeral -}}
 {{-   if eq $hostname "AREMSTEDT" -}}
@@ -50,6 +51,7 @@
   gitEmail = {{ onepasswordRead (printf "op://%s/github/email" $op_vault) | quote }}
   sshPublicKey = {{ onepasswordRead $ssh_public_key | quote }}
   personalAccessToken = {{ onepasswordRead $personal_access_token | quote }}
+  chezmoiToken = {{ onepasswordRead $chezmoi_token | quote }}
   hostname = {{ $hostname | quote }}
   headless = {{ $headless }}
   personal = {{ $personal }}
