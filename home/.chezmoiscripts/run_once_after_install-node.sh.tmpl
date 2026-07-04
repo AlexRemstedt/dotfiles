@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
-if ! fnm -v fnm >/dev/null 2>&1; then
+set -euo pipefail
+
+# fnm installs itself here (respects XDG_DATA_HOME, defaults to ~/.local/share).
+FNM_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/fnm"
+
+if ! command -v fnm >/dev/null 2>&1; then
   curl -fsSL https://fnm.vercel.app/install | bash
-  fnm completions --shell zsh
 fi
+
+# The installer only appends the PATH setup to .zshrc, which isn't sourced in
+# this script's shell. Put fnm on PATH ourselves so the calls below work.
+export PATH="$FNM_PATH:$PATH"
+
+if ! command -v fnm >/dev/null 2>&1; then
+  echo "fnm not found on PATH after install (looked in $FNM_PATH)" >&2
+  exit 1
+fi
+
 fnm install --lts
