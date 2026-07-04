@@ -1,2 +1,10 @@
-#!/usr/bin/env zsh
-(( $+commands[bob] )) && bob use stable
+#!/usr/bin/env bash
+set -euo pipefail
+
+# bob (the neovim version manager) is downloaded to ~/.local/bin by chezmoi
+# externals, which isn't necessarily on PATH during this apply session.
+export PATH="$HOME/.local/bin:$PATH"
+
+if command -v bob >/dev/null 2>&1; then
+  bob use stable
+fi
