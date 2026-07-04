@@ -13,7 +13,7 @@
 {{- $hostname := .chezmoi.hostname -}}
 {{- $op_vault := "development" -}}
 {{- $ssh_public_key := "op://development/personal-machine/public key" -}}
-{{- $personal_access_token := "op://development/personal-machine-pat/credential" -}}
+{{- $personal_access_token := "op://development/chezmoi/credential" -}}
 
 {{- if not $ephemeral -}}
 {{-   if eq $hostname "AREMSTEDT" -}}
@@ -55,3 +55,5 @@
   personal = {{ $personal }}
   osid = {{ $osID | quote }}
   op = true
+
+
