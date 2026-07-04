@@ -17,7 +17,7 @@
 {{- $chezmoi_token := "op://development/chezmoi/credential" -}}
 
 {{- if not $ephemeral -}}
-{{-   if eq $hostname "AREMSTEDT" -}}
+{{-   if has $hostname (list "AREMSTEDT" "luna") -}}
 {{-     $personal = true -}}
 {{-   else if eq $hostname "PLT5CD331HC4N" -}}
 {{-     $personal = false -}}
