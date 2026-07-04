@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Runs in the run_after_ phase so python3 (from install-python-env) exists.
+# The name intentionally omits an "install-" prefix so it sorts after every
+# install-* after-script and runs last, once its dependencies are in place.
+
+if ! command -v pipx &> /dev/null; then
+    echo "Installing pipx..."
+    python3 -m pip install --user pipx
+    python3 -m pipx ensurepath
+fi
+
+pipx install jrnl
