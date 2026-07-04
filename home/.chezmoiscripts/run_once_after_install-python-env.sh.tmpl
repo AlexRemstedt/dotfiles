@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 sudo apt update
-sudo apt upgrade
-sudo apt install python3 -y
+sudo apt upgrade -y
+sudo apt install -y python3 pipx
+pipx ensurepath
 
 {{- if eq .chezmoi.hostname "PLT5CD331HC4N" }}
-sudo apt install pipx
-pipx ensurepath
 pipx install poetry
 sudo apt install -y dotnet-sdk-8.0
 poetry self add artifacts-keyring
