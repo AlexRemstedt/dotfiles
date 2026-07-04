@@ -30,6 +30,26 @@
 {{-   end -}}
 {{- end -}}
 
+{{- /* Only touch 1Password when op.exe is actually on PATH. This lets a    */ -}}
+{{- /* secretless one-shot / ephemeral install finish `apply` cleanly on a   */ -}}
+{{- /* machine where Windows 1Password isn't wired up yet; a later apply      */ -}}
+{{- /* (once op.exe is signed in) fills the secrets in automatically.         */ -}}
+{{- /* We invoke op.exe directly via `output` rather than onepasswordRead:    */ -}}
+{{- /* while rendering this config template chezmoi hasn't applied the        */ -}}
+{{- /* [onepassword] command setting yet, so onepasswordRead would call bare  */ -}}
+{{- /* `op` (absent on WSL) instead of the op.exe we just probed for.         */ -}}
+{{- $op := false -}}
+{{- if lookPath "op.exe" -}}{{- $op = true -}}{{- end -}}
+
+{{- $gitEmail := "" -}}
+{{- $sshPublicKeyValue := "" -}}
+{{- $patValue := "" -}}
+{{- if $op -}}
+{{-   $gitEmail = output "op.exe" "read" (printf "op://%s/github/email" $op_vault) | trim -}}
+{{-   $sshPublicKeyValue = output "op.exe" "read" $ssh_public_key | trim -}}
+{{-   $patValue = output "op.exe" "read" $personal_access_token | trim -}}
+{{- end -}}
+
 [onepassword]
   command = "op.exe"
   defaultVault = {{ $op_vault | quote }}
@@ -42,16 +62,16 @@
   command = "nvim"
 
 [github]
-  token = {{ $personal_access_token | quote }}
+  token = {{ $patValue | quote }}
 
 [data]
   ephemeral = {{ $ephemeral }}
   work = {{ $work }}
-  gitEmail = {{ onepasswordRead (printf "op://%s/github/email" $op_vault) | quote }}
-  sshPublicKey = {{ onepasswordRead $ssh_public_key | quote }}
-  personalAccessToken = {{ onepasswordRead $personal_access_token | quote }}
+  gitEmail = {{ $gitEmail | quote }}
+  sshPublicKey = {{ $sshPublicKeyValue | quote }}
+  personalAccessToken = {{ $patValue | quote }}
   hostname = {{ $hostname | quote }}
   headless = {{ $headless }}
   personal = {{ $personal }}
   osid = {{ $osID | quote }}
-  op = true
+  op = {{ $op }}

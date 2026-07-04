@@ -15,7 +15,9 @@ export RUFF_CACHE_DIR="${XDG_CACHE_HOME}/ruff"
 export STARSHIP_CACHE="${XDG_CACHE_HOME}/starship"
 
 # Github
+{{- if .personalAccessToken }}
 export GITHUB_TOKEN={{ .personalAccessToken | quote }}
+{{- end }}
 
 # Quarto
 export QUARTO_HOME="${XDG_DATA_HOME}/quarto"
