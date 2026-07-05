@@ -1,3 +1,7 @@
+{{- /* Native Windows nvim reads ~/AppData/Local/nvim, not ~/.config/nvim, so */ -}}
+{{- /* clone only on Linux/WSL for now.                                        */ -}}
+{{- if eq .chezmoi.os "linux" }}
 [".config/nvim"]
 type = "git-repo"
 url = "https://github.com/AlexRemstedt/nvim.git"
+{{- end }}

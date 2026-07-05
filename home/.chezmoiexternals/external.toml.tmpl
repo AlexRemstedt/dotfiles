@@ -1,4 +1,6 @@
-{{- if not .ephemeral -}}
+{{- /* Linux-only: every asset below is a Linux binary. Windows gets its own */ -}}
+{{- /* externals in a later pass.                                            */ -}}
+{{- if and (eq .chezmoi.os "linux") (not .ephemeral) -}}
 {{/* $arch:    x86_64 / aarch64 naming (atuin, uv, bob, rustup, eza, ...) */}}
 {{/* $archAlt: x86_64 / arm64 naming   (lazygit, lazydocker)             */}}
 {{-   $arch := .chezmoi.arch -}}
