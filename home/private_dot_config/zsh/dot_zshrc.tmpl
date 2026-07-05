@@ -3,8 +3,6 @@ fpath=("${(@)fpath:#/usr/share/zsh/vendor-completions}")
 autoload -Uz compinit
 compinit
 
-export CHEZMOI_GITHUB_ACCESS_TOKEN={{ .chezmoiToken | quote }}
-
 # Modular ZSH Configuration
 # Load utility functions first
 source ~/.config/zsh/conf.d/00_utils.zsh

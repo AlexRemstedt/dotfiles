@@ -13,7 +13,9 @@
 {{- $hostname := .chezmoi.hostname -}}
 {{- $op_vault := "development" -}}
 {{- $ssh_public_key := "op://development/personal-machine/public key" -}}
-{{- $personal_access_token := "op://development/personal-machine-pat/credential" -}}
+{{- /* Dedicated fine-grained token (public repos only) used solely to raise */ -}}
+{{- /* the GitHub API rate limit when resolving externals. Lives in the      */ -}}
+{{- /* development vault regardless of machine, matching prior behaviour.     */ -}}
 {{- $chezmoi_token := "op://development/chezmoi/credential" -}}
 
 {{- if not $ephemeral -}}
@@ -24,11 +26,20 @@
 {{-     $work = true -}}
 {{-     $op_vault = "work" -}}
 {{-     $ssh_public_key = "op://work/work-machine/public key" -}}
-{{-     $personal_access_token = "op://work/work-machine-pat/credential" -}}
 {{-   else -}}
 {{-     $ephemeral = true -}}
 {{-     $headless = true -}}
 {{-   end -}}
+{{- end -}}
+
+{{- /* Secrets are only read on non-ephemeral machines, where 1Password (op) */ -}}
+{{- /* is available. Ephemeral/one-shot boxes get empty values and skip op    */ -}}
+{{- /* entirely so `chezmoi init` no longer hard-fails when op is absent.      */ -}}
+{{- $gitEmail := "" -}}
+{{- $sshPublicKey := "" -}}
+{{- if not $ephemeral -}}
+{{-   $gitEmail = onepasswordRead (printf "op://%s/github/email" $op_vault) -}}
+{{-   $sshPublicKey = onepasswordRead $ssh_public_key -}}
 {{- end -}}
 
 [onepassword]
@@ -42,20 +53,20 @@
 [edit]
   command = "nvim"
 
+{{- if not $ephemeral }}
 [github]
-  token = {{ $personal_access_token | quote }}
+  token = {{ onepasswordRead $chezmoi_token | quote }}
+{{- end }}
 
 [data]
   ephemeral = {{ $ephemeral }}
   work = {{ $work }}
-  gitEmail = {{ onepasswordRead (printf "op://%s/github/email" $op_vault) | quote }}
-  sshPublicKey = {{ onepasswordRead $ssh_public_key | quote }}
-  personalAccessToken = {{ onepasswordRead $personal_access_token | quote }}
-  chezmoiToken = {{ onepasswordRead $chezmoi_token | quote }}
+  gitEmail = {{ $gitEmail | quote }}
+  sshPublicKey = {{ $sshPublicKey | quote }}
   hostname = {{ $hostname | quote }}
   headless = {{ $headless }}
   personal = {{ $personal }}
   osid = {{ $osID | quote }}
-  op = true
+  op = {{ not $ephemeral }}
 
 

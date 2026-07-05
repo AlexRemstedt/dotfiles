@@ -1,9 +1,12 @@
 
 [user]
   name = Remstedt, Alex
+{{- if not .ephemeral }}
   email = {{ .gitEmail }}
   signingkey = {{ .sshPublicKey }}
+{{- end }}
 
+{{- if not .ephemeral }}
 [gpg]
   format = ssh
 
@@ -17,6 +20,7 @@
 
 [commit]
   gpgsign = true
+{{- end }}
 
 
 {{ if .op }}
