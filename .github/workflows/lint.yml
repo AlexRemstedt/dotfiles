@@ -18,8 +18,8 @@ jobs:
         run: |
           # Lint plain (non-templated) bash scripts. chezmoi *.tmpl files and
           # zsh scripts are skipped: they aren't valid standalone shell and
-          # shellcheck can't parse them. Fail only on error-level findings so
-          # style nits don't block, while real breakage still trips CI.
+          # shellcheck can't parse them. Fail on warning-level findings and
+          # above; low-value info/style nits don't block.
           mapfile -t files < <(
             find home -type f \
               ! -name '*.tmpl' \
@@ -32,4 +32,4 @@ jobs:
             exit 0
           fi
           printf 'Linting:\n'; printf '  %s\n' "${files[@]}"
-          shellcheck --severity=error "${files[@]}"
+          shellcheck --severity=warning "${files[@]}"
