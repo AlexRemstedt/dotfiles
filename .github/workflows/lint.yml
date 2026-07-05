@@ -1,0 +1,35 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck on bash scripts
+        run: |
+          # Lint plain (non-templated) bash scripts. chezmoi *.tmpl files and
+          # zsh scripts are skipped: they aren't valid standalone shell and
+          # shellcheck can't parse them. Fail only on error-level findings so
+          # style nits don't block, while real breakage still trips CI.
+          mapfile -t files < <(
+            find home -type f \
+              ! -name '*.tmpl' \
+              ! -name '*.zsh' \
+              -exec sh -c 'head -n1 "$1" | grep -qE "\b(bash|sh)$"' _ {} \; \
+              -print
+          )
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No bash scripts found to lint."
+            exit 0
+          fi
+          printf 'Linting:\n'; printf '  %s\n' "${files[@]}"
+          shellcheck --severity=error "${files[@]}"

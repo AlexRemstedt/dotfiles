@@ -1,18 +1,21 @@
 {{- if not .ephemeral -}}
+{{/* $arch:    x86_64 / aarch64 naming (atuin, uv, bob, rustup, eza, ...) */}}
+{{/* $archAlt: x86_64 / arm64 naming   (lazygit, lazydocker)             */}}
 {{-   $arch := .chezmoi.arch -}}
-{{-   if eq .chezmoi.arch "amd64" -}}{{- $arch = "x86_64" -}}{{- end -}}
-{{-   if eq .chezmoi.arch "arm64" -}}{{- $arch = "aarch64" -}}{{- end }}
+{{-   $archAlt := .chezmoi.arch -}}
+{{-   if eq .chezmoi.arch "amd64" -}}{{- $arch = "x86_64" -}}{{- $archAlt = "x86_64" -}}{{- end -}}
+{{-   if eq .chezmoi.arch "arm64" -}}{{- $arch = "aarch64" -}}{{- $archAlt = "arm64" -}}{{- end }}
 
 [".local/bin/atuin"]
 type = "archive-file"
-url = {{ gitHubLatestReleaseAssetURL "atuinsh/atuin" "atuin-x86_64-unknown-linux-gnu.tar.gz" | quote }}
-path = "atuin-x86_64-unknown-linux-gnu/atuin"
+url = {{ gitHubLatestReleaseAssetURL "atuinsh/atuin" (printf "atuin-%s-unknown-linux-gnu.tar.gz" $arch) | quote }}
+path = "atuin-{{ $arch }}-unknown-linux-gnu/atuin"
 executable = true
 refreshPeriod = "720h"
 
 [".local/bin/rustup-init"]
 type = "file"
-url = "https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init"
+url = "https://static.rust-lang.org/rustup/dist/{{ $arch }}-unknown-linux-gnu/rustup-init"
 executable = true
 refreshPeriod = "720h"
 
@@ -60,18 +63,18 @@ refreshPeriod = "720h"
 url = {{ gitHubLatestReleaseAssetURL "MordechaiHadad/bob" (printf "bob-linux-%s.zip" $arch) | quote }}
 type = "archive-file"
 executable = true
-path = "bob-linux-x86_64/bob"
+path = "bob-linux-{{ $arch }}/bob"
 refreshPeriod = "721h"
 
 [".local/bin/lazygit"]
 type = "archive-file"
-url = {{ gitHubLatestReleaseAssetURL "jesseduffield/lazygit" "lazygit_*_linux_x86_64.tar.gz" | quote }}
+url = {{ gitHubLatestReleaseAssetURL "jesseduffield/lazygit" (printf "lazygit_*_linux_%s.tar.gz" $archAlt) | quote }}
 executable = true
 path = "lazygit"
 refreshPeriod = "720h"
 
 [".local/bin/lazydocker"]
-url = {{ gitHubLatestReleaseAssetURL "jesseduffield/lazydocker" "lazydocker_*_Linux_x86_64.tar.gz" | quote }}
+url = {{ gitHubLatestReleaseAssetURL "jesseduffield/lazydocker" (printf "lazydocker_*_Linux_%s.tar.gz" $archAlt) | quote }}
 type = "archive-file"
 executable = true
 path = "lazydocker"
@@ -80,10 +83,10 @@ refreshPeriod = "720h"
 
 [".local/bin/uv"]
 type = "archive-file"
-url = {{ gitHubLatestReleaseAssetURL "astral-sh/uv" "uv-x86_64-unknown-linux-gnu.tar.gz" | quote }}
+url = {{ gitHubLatestReleaseAssetURL "astral-sh/uv" (printf "uv-%s-unknown-linux-gnu.tar.gz" $arch) | quote }}
 refreshPeriod = "72h"
 executable = true
-path = "uv-x86_64-unknown-linux-gnu/uv"
+path = "uv-{{ $arch }}-unknown-linux-gnu/uv"
 
 [".local/bin/fnm"]
 type = "archive-file"

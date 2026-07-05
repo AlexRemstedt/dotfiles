@@ -16,7 +16,7 @@ compinit -Cd "${XDG_CACHE_HOME}/zsh/zcompdump"
 
 (( $+commands[gh] )) && eval "$(gh completion -s zsh)"
 
-(( $+commands[git-flow] )) || eval "$(git-flow completion zsh)"
+(( $+commands[git-flow] )) && eval "$(git-flow completion zsh)"
 
 # Node
 if (( $+commands[fnm] )); then
