@@ -1,0 +1,4 @@
+{{- /* kanata is a Windows-only remapper here; skip its config elsewhere. */ -}}
+{{ if ne .chezmoi.os "windows" }}
+.config/kanata/kanata.kbd
+{{ end }}

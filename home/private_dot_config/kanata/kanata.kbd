@@ -1,0 +1,49 @@
+;; kanata configuration — Windows only.
+;;
+;; Managed by chezmoi (see ~/.config/kanata/kanata.kbd). This file is ignored
+;; on non-Windows machines via .chezmoiignore.
+;;
+;; Docs: https://github.com/jtroo/kanata/blob/main/docs/config.adoc
+;;
+;; Run (elevated shell, Interception driver installed):
+;;   kanata --cfg %USERPROFILE%\.config\kanata\kanata.kbd
+
+(defcfg
+  ;; Only keys listed in defsrc are intercepted; everything else passes
+  ;; through untouched. Keeps the config small and side-effect free.
+  process-unmapped-keys no
+)
+
+(defvar
+  ;; Shared tap/hold timing (milliseconds). Lower = snappier taps but more
+  ;; accidental holds; raise if home-row mods fire while typing fast.
+  tap-time 200
+  hold-time 200
+)
+
+;; Physical keys we remap. Names come from kanata's key list.
+(defsrc
+  caps a    s    d    f    j    k    l    ;
+)
+
+(deflayer base
+  @cap @a   @s   @d   @f   @j   @k   @l   @scln
+)
+
+(defalias
+  ;; Caps Lock: tap for Escape, hold for Left Control.
+  cap  (tap-hold $tap-time $hold-time esc  lctl)
+
+  ;; Home-row mods — GACS / SCAG layout.
+  ;; Left hand (hold):  Super  Alt   Shift Ctrl
+  a    (tap-hold $tap-time $hold-time a    lmet)
+  s    (tap-hold $tap-time $hold-time s    lalt)
+  d    (tap-hold $tap-time $hold-time d    lsft)
+  f    (tap-hold $tap-time $hold-time f    lctl)
+
+  ;; Right hand (hold): Ctrl   Shift Alt   Super
+  j    (tap-hold $tap-time $hold-time j    rctl)
+  k    (tap-hold $tap-time $hold-time k    rsft)
+  l    (tap-hold $tap-time $hold-time l    lalt)
+  scln (tap-hold $tap-time $hold-time ;    rmet)
+)
