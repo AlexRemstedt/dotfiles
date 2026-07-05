@@ -1,4 +1,4 @@
-# Dofiles
+# Dotfiles
 Dotfiles managed by chezmoi.
 
 First, make sure the 1Password CLI (`op`) is on your `PATH`, since secrets are fetched at apply time:
