@@ -1,14 +1,15 @@
 ;; Kanata keyboard remapper configuration
 ;; https://github.com/jtroo/kanata
 ;;
-;; Managed by chezmoi. Edit with:
+;; Source of truth for kanata.kbd, managed by chezmoi. Edit with:
 ;;   chezmoi edit ~/.config/kanata/kanata.kbd
-;; then re-apply and reload the service:
-;;   chezmoi apply && systemctl --user restart kanata.service
+;; On apply, the run_onchange kanata script copies this to the Windows host at
+;; %APPDATA%\kanata\kanata.kbd (kanata's default config location) and restarts
+;; the tray app. Reload manually from the kanata tray menu if needed.
 
 (defcfg
-  ;; Let every key that is not listed in defsrc pass through untouched, so the
-  ;; rest of the keyboard keeps working normally.
+  ;; Let every key not listed in defsrc pass through untouched, so the rest of
+  ;; the keyboard keeps working normally.
   process-unmapped-keys yes
 )
 

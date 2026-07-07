@@ -123,14 +123,14 @@ url = "https://raw.githubusercontent.com/ThePrimeagen/tmux-sessionizer/refs/head
 refreshPeriod = "168h"
 executable = true
 
-{{- /* kanata keyboard remapper: only x86_64 Linux binaries are published, and */}}
-{{- /* it is only useful on machines with an actual keyboard (not headless).    */}}
-{{- if and (not .headless) (eq $arch "x86_64") }}
-[".local/bin/kanata"]
-type = "archive-file"
-url = {{ gitHubLatestReleaseAssetURL "jtroo/kanata" "linux-binaries-x64.zip" | quote }}
-path = "kanata"
-executable = true
+{{- /* kanata keyboard remapper. This repo is applied from WSL but manages the  */}}
+{{- /* Windows-side kanata, so stage the whole Windows release here; the         */}}
+{{- /* run_onchange kanata script copies the GUI/tray build onto the Windows     */}}
+{{- /* host. Skip on headless boxes with no keyboard to remap.                   */}}
+{{- if not .headless }}
+[".local/share/kanata"]
+type = "archive"
+url = {{ gitHubLatestReleaseAssetURL "jtroo/kanata" "windows-binaries-x64.zip" | quote }}
 refreshPeriod = "720h"
 {{- end }}
 

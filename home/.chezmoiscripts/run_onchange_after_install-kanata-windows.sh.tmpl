@@ -1,0 +1,68 @@
+{{ if and (not .headless) (eq .chezmoi.os "linux") -}}
+#!/usr/bin/env bash
+# chezmoi: run_onchange_after_install-kanata-windows.sh.tmpl
+# This dotfiles repo is applied inside WSL but manages kanata on the Windows
+# host. Copy the staged GUI/tray build and kanata.kbd onto the Windows file
+# system (config goes to kanata's default %APPDATA%\kanata location) and add a
+# Startup shortcut so kanata launches into the system tray at login.
+#
+# Re-runs whenever the pinned release or the config changes:
+#   kanata release: {{ (gitHubLatestRelease "jtroo/kanata").TagName }}
+#   config sha256:  {{ include "private_dot_config/kanata/kanata.kbd" | sha256sum }}
+set -euo pipefail
+
+# Only works under WSL, where cmd.exe / powershell.exe / /mnt/c reach Windows.
+if ! grep -qiE 'microsoft|wsl' /proc/version 2>/dev/null; then
+  echo 'kanata: not running under WSL; skipping Windows setup.' >&2
+  exit 0
+fi
+
+stage_dir="$HOME/.local/share/kanata"
+# Prefer the GUI build with the default winIOv2 backend (runs in the system
+# tray, needs no extra driver), excluding the cmd-enabled variant.
+staged_exe="$(find "$stage_dir" -maxdepth 2 -type f \
+  -name 'kanata*gui*winIOv2*x64*.exe' ! -name '*cmd_allowed*' 2>/dev/null | head -n1 || true)"
+
+if [[ -z "${staged_exe:-}" || ! -f "$staged_exe" ]]; then
+  echo "kanata: staged Windows GUI binary not found under $stage_dir; skipping." >&2
+  exit 0
+fi
+
+# Resolve Windows env dirs (as Windows paths) and their WSL equivalents.
+win_env() { cmd.exe /d /c "echo %$1%" 2>/dev/null | tr -d '\r'; }
+appdata_win="$(win_env APPDATA)"
+localappdata_win="$(win_env LOCALAPPDATA)"
+appdata="$(wslpath "$appdata_win")"
+localappdata="$(wslpath "$localappdata_win")"
+
+cfg_dir="$appdata/kanata"
+exe_dir="$localappdata/kanata"
+mkdir -p "$cfg_dir" "$exe_dir"
+
+# Config into kanata's default Windows discovery path (%APPDATA%\kanata).
+cp -f "$HOME/.config/kanata/kanata.kbd" "$cfg_dir/kanata.kbd"
+# Tray/GUI binary onto the Windows file system.
+cp -f "$staged_exe" "$exe_dir/kanata.exe"
+
+# Stop any running instance so the new binary/config take effect, then re-add
+# the Startup shortcut. kanata finds its config automatically at
+# %APPDATA%\kanata\kanata.kbd, so the shortcut needs no arguments.
+taskkill.exe /IM kanata.exe /F >/dev/null 2>&1 || true
+
+exe_win="$localappdata_win\\kanata\\kanata.exe"
+lnk_win="$appdata_win\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\kanata.lnk"
+powershell.exe -NoProfile -NonInteractive -Command "
+  \$s = (New-Object -ComObject WScript.Shell).CreateShortcut('$lnk_win')
+  \$s.TargetPath = '$exe_win'
+  \$s.WorkingDirectory = '$localappdata_win\\kanata'
+  \$s.Description = 'kanata keyboard remapper'
+  \$s.Save()
+" >/dev/null 2>&1 || echo 'kanata: could not create Startup shortcut.' >&2
+
+# Start it now, into the tray.
+powershell.exe -NoProfile -Command "Start-Process -FilePath '$exe_win'" >/dev/null 2>&1 || true
+
+echo "kanata: binary -> $exe_dir/kanata.exe, config -> $cfg_dir/kanata.kbd"
+echo 'kanata: running in the system tray (and auto-starts on login).'
+{{ end -}}
+# vim: ft=sh
