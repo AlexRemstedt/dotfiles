@@ -1,0 +1,30 @@
+;; Kanata keyboard remapper configuration
+;; https://github.com/jtroo/kanata
+;;
+;; Managed by chezmoi. Edit with:
+;;   chezmoi edit ~/.config/kanata/kanata.kbd
+;; then re-apply and reload the service:
+;;   chezmoi apply && systemctl --user restart kanata.service
+
+(defcfg
+  ;; Let every key that is not listed in defsrc pass through untouched, so the
+  ;; rest of the keyboard keeps working normally.
+  process-unmapped-keys yes
+)
+
+;; Physical keys kanata intercepts. The order here matches the deflayer below.
+(defsrc
+  caps
+)
+
+(defalias
+  ;; The classic Caps Lock remap: tap for Escape, hold for Left Control.
+  ;; 200ms tap timeout / 200ms hold timeout.
+  escctl (tap-hold 200 200 esc lctl)
+)
+
+(deflayer base
+  @escctl
+)
+
+;; vim: ft=lisp

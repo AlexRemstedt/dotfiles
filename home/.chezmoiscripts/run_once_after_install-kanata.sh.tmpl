@@ -1,0 +1,57 @@
+{{ if and (not .headless) (eq .chezmoi.os "linux") -}}
+#!/usr/bin/env bash
+# chezmoi: run_once_after_install-kanata.sh.tmpl
+# Grant kanata access to /dev/uinput (so it can create a virtual keyboard) and
+# enable it as a systemd user service. Group changes take effect on next login.
+set -euo pipefail
+
+# kanata is fetched to ~/.local/bin by chezmoi externals, which isn't
+# necessarily on PATH during this apply session.
+export PATH="$HOME/.local/bin:$PATH"
+
+# The binary is only published/downloaded for x86_64; skip quietly otherwise.
+if ! command -v kanata >/dev/null 2>&1; then
+  echo "kanata binary not found on PATH; skipping kanata setup." >&2
+  exit 0
+fi
+
+user="$(id -un)"
+
+{{ $sudo := "sudo " -}}
+{{ if eq .chezmoi.username "root" -}}
+{{ $sudo = "" -}}
+{{ end -}}
+
+# 1. Ensure the uinput kernel module loads on boot and now.
+{{ $sudo -}} tee /etc/modules-load.d/uinput.conf >/dev/null <<'EOF'
+uinput
+EOF
+{{ $sudo -}} modprobe uinput || true
+
+# 2. Create a uinput group and a udev rule granting it access to /dev/uinput.
+if ! getent group uinput >/dev/null 2>&1; then
+  {{ $sudo -}} groupadd uinput
+fi
+
+{{ $sudo -}} tee /etc/udev/rules.d/99-kanata.rules >/dev/null <<'EOF'
+KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
+EOF
+
+# 3. Add the current user to the input and uinput groups (needs re-login).
+{{ $sudo -}} usermod -aG input,uinput "$user"
+
+# 4. Reload udev so the rule applies without a reboot.
+{{ $sudo -}} udevadm control --reload-rules || true
+{{ $sudo -}} udevadm trigger || true
+
+# 5. Enable the kanata systemd user service, when a user systemd bus exists.
+if command -v systemctl >/dev/null 2>&1 && systemctl --user show-environment >/dev/null 2>&1; then
+  systemctl --user daemon-reload
+  systemctl --user enable kanata.service
+  echo "kanata: service enabled. Log out and back in for group changes, then:"
+  echo "  systemctl --user start kanata.service"
+else
+  echo "kanata: no user systemd bus; start manually with 'kanata --cfg ~/.config/kanata/kanata.kbd'." >&2
+fi
+{{ end -}}
+# vim: ft=sh
