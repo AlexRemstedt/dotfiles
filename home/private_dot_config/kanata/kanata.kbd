@@ -1,0 +1,31 @@
+;; Kanata keyboard remapper configuration
+;; https://github.com/jtroo/kanata
+;;
+;; Source of truth for kanata.kbd, managed by chezmoi. Edit with:
+;;   chezmoi edit ~/.config/kanata/kanata.kbd
+;; On apply, the run_onchange kanata script copies this to the Windows host at
+;; %APPDATA%\kanata\kanata.kbd (kanata's default config location) and restarts
+;; the tray app. Reload manually from the kanata tray menu if needed.
+
+(defcfg
+  ;; Let every key not listed in defsrc pass through untouched, so the rest of
+  ;; the keyboard keeps working normally.
+  process-unmapped-keys yes
+)
+
+;; Physical keys kanata intercepts. The order here matches the deflayer below.
+(defsrc
+  caps
+)
+
+(defalias
+  ;; The classic Caps Lock remap: tap for Escape, hold for Left Control.
+  ;; 200ms tap timeout / 200ms hold timeout.
+  escctl (tap-hold 200 200 esc lctl)
+)
+
+(deflayer base
+  @escctl
+)
+
+;; vim: ft=lisp
