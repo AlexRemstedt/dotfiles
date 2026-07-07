@@ -1,0 +1,46 @@
+{{- if eq .chezmoi.os "windows" -}}
+{{- /* Nothing in this repo is Windows-ready yet: the shell layer is zsh, the  */ -}}
+{{- /* externals are Linux binaries, and the app configs live under ~/.config  */ -}}
+{{- /* (XDG) rather than %APPDATA%/%LOCALAPPDATA%. Ignore the whole Linux/WSL   */ -}}
+{{- /* tree so `chezmoi apply` is a safe no-op on native Windows. Entries get   */ -}}
+{{- /* un-ignored as Windows variants land.                                    */ -}}
+
+# Shell (zsh) — no native Windows equivalent yet
+.zshenv
+.config/zsh
+.config/sheldon
+
+# tmux — does not run on native Windows
+.config/tmux
+.config/tmux-sessionizer
+.tmux-cht-command
+.tmux-cht-languages
+
+# XDG desktop integration — Linux only
+.config/mimeapps.list
+
+# App configs placed at ~/.config; native Windows apps read %APPDATA%/%LOCALAPPDATA%.
+# Re-add with Windows-correct target paths in a later pass.
+.config/git
+.config/starship
+.config/lazygit
+.config/jrnl
+.config/nvim
+
+# Unix helper scripts (~/.local/bin) and downloaded Linux binaries (~/.local/...)
+.local
+
+# Setup scripts (bash). Target names are the source filenames with the
+# run_/once_/onchange_/before_/after_ prefixes and .tmpl suffix stripped.
+install_packages.sh
+install-node.sh
+install-nvim.sh
+install-python-env.sh
+install-rust.sh
+jrnl.sh
+chsh.sh
+create_symlinks.sh
+{{- end -}}
+{{- /* On Linux/WSL this file renders empty, so nothing is ignored and behaviour */ -}}
+{{- /* is unchanged. Windows-only source files (added later) should be ignored   */ -}}
+{{- /* here under `{{ if ne .chezmoi.os "windows" }}` when they exist.           */ -}}

@@ -10,6 +10,18 @@
 {{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
+{{- /* OS awareness. WSL reports os == "linux", so it is distinguished from a  */ -}}
+{{- /* native Linux box by the "microsoft"/"WSL" marker in the kernel release. */ -}}
+{{- /* Nothing consumes windows/wsl yet; they are groundwork for per-OS files. */ -}}
+{{- $isWindows := eq .chezmoi.os "windows" -}}
+{{- $isWSL := false -}}
+{{- if and (eq .chezmoi.os "linux") (hasKey .chezmoi "kernel") (hasKey .chezmoi.kernel "osrelease") -}}
+{{-   $kernel := lower .chezmoi.kernel.osrelease -}}
+{{-   if or (contains "microsoft" $kernel) (contains "wsl" $kernel) -}}
+{{-     $isWSL = true -}}
+{{-   end -}}
+{{- end -}}
+
 {{- $hostname := .chezmoi.hostname -}}
 {{- $op_vault := "development" -}}
 {{- $ssh_public_key := "op://development/personal-machine/public key" -}}
@@ -68,5 +80,8 @@
   personal = {{ $personal }}
   osid = {{ $osID | quote }}
   op = {{ not $ephemeral }}
+  os = {{ .chezmoi.os | quote }}
+  windows = {{ $isWindows }}
+  wsl = {{ $isWSL }}
 
 
