@@ -1,0 +1,4 @@
+# GlazeWM is Windows-only; don't deploy it on Linux/WSL machines.
+{{ if ne .chezmoi.os "windows" }}
+.glzr
+{{ end }}
