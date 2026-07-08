@@ -1,4 +1,6 @@
-# GlazeWM is Windows-only; don't deploy it on Linux/WSL machines.
+# GlazeWM and the PowerShell profile are Windows-only; don't deploy them on
+# Linux/WSL machines.
 {{ if ne .chezmoi.os "windows" }}
 .glzr
+Documents
 {{ end }}
