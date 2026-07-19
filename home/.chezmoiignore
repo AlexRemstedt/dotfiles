@@ -2,5 +2,5 @@
 # Linux/WSL machines.
 {{ if ne .chezmoi.os "windows" }}
 .glzr
-Documents
+Documents/PowerShell
 {{ end }}

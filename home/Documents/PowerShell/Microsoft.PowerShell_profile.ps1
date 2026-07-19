@@ -97,10 +97,13 @@ function touch {
     }
 }
 
-# `which` for people who forget it is Get-Command here.
+# `which` for people who forget it is Get-Command here. Returns the executable
+# path for applications, or the definition (alias target / function body) for
+# everything else — `Source` alone is empty for prompt-defined functions.
 function which {
     param([Parameter(Mandatory)] [string] $Name)
-    Get-Command $Name -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
+    $cmd = Get-Command $Name -ErrorAction SilentlyContinue
+    if ($cmd) { if ($cmd.Path) { $cmd.Path } else { $cmd.Definition } }
 }
 
 # Reload this profile without restarting the shell.
@@ -193,9 +196,11 @@ if (Test-Command zoxide) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
 
-# fzf shell integration (Ctrl+T, Ctrl+R, Alt+C) when available.
-if (Test-Command fzf) {
-    try { Invoke-Expression (& { (fzf --powershell | Out-String) }) } catch { }
+# fzf key bindings via PSFzf (the fzf binary has no PowerShell init flag; the
+# module is what wires up Ctrl+T for files and Ctrl+R for history).
+if ((Test-Command fzf) -and (Get-Module -ListAvailable -Name PSFzf)) {
+    Import-Module PSFzf
+    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 }
 
 # starship prompt — kept last so it owns the prompt function.
