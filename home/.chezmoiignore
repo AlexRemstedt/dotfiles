@@ -4,3 +4,32 @@
 .glzr
 Documents/PowerShell
 {{ end }}
+
+# Mirror image: the zsh/tmux shell environment and the Linux release binaries
+# are meant for Linux/WSL, so keep them off native Windows (where the GlazeWM +
+# PowerShell setup lives instead). git and starship stay put — the PowerShell
+# profile uses starship for its prompt.
+{{ if eq .chezmoi.os "windows" }}
+# Shell + CLI config
+.config/zsh
+.zshenv
+.config/tmux
+.tmux-cht-command
+.tmux-cht-languages
+.config/sheldon
+.config/tmux-sessionizer
+.config/jrnl
+# Linux release binaries and bash helpers under ~/.local
+.local/bin
+.local/share/tmux
+.local/share/quarto
+# bash setup scripts (matched by chezmoi target name, source prefixes stripped)
+install-node.sh
+install-nvim.sh
+install-python-env.sh
+install-rust.sh
+jrnl.sh
+chsh.sh
+install_packages.sh
+create_symlinks.sh
+{{ end }}

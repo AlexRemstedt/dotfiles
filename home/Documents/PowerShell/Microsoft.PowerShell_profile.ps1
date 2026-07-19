@@ -134,51 +134,53 @@ if (Test-Command bat) {
 
 #region Git — a curated slice of the zsh git aliases
 
-function g    { git @args }
-function ga   { git add @args }
-function gaa  { git add --all @args }
-function gap  { git add --patch @args }
-function gst  { git status @args }
-function gss  { git status --short @args }
-function gsb  { git status --short --branch @args }
-function gc   { git commit --verbose @args }
-function gcmsg { git commit --message @args }
-function 'gc!' { git commit --verbose --amend @args }
-function gcn  { git commit --verbose --no-edit @args }
-function gco  { git checkout @args }
-function gcb  { git checkout -b @args }
-function gsw  { git switch @args }
-function gswc { git switch --create @args }
-function gb   { git branch @args }
-function gba  { git branch --all @args }
-function gbd  { git branch --delete @args }
-function gd   { git diff @args }
-function gds  { git diff --staged @args }
-function gdca { git diff --cached @args }
-function gf   { git fetch @args }
-function gfa  { git fetch --all --tags --prune @args }
-function gl   { git pull @args }
-function gpr  { git pull --rebase @args }
-function gp   { git push @args }
-function gpf  { git push --force-with-lease --force-if-includes @args }
-function gpsup { git push --set-upstream origin (git branch --show-current) @args }
-function glo  { git log --oneline --decorate @args }
-function glog { git log --oneline --decorate --graph @args }
-function gloga { git log --oneline --decorate --graph --all @args }
-function grh  { git reset @args }
-function grhh { git reset --hard @args }
-function grb  { git rebase @args }
-function grbi { git rebase --interactive @args }
-function grba { git rebase --abort @args }
-function grbc { git rebase --continue @args }
-function gsta { git stash push @args }
-function gstp { git stash pop @args }
-function gstl { git stash list @args }
-function gm   { git merge @args }
-function gcl  { git clone --recurse-submodules @args }
-
-# Lazygit gets a short alias too.
-if (Test-Command lazygit) { function lg { lazygit @args } }
+# Only define these when git is installed. Besides being pointless without
+# git, several of them (gc, gl, gp, gm) shadow built-in PowerShell aliases, so
+# we don't want to clobber those on a machine that has no git anyway.
+if (Test-Command git) {
+    function g    { git @args }
+    function ga   { git add @args }
+    function gaa  { git add --all @args }
+    function gap  { git add --patch @args }
+    function gst  { git status @args }
+    function gss  { git status --short @args }
+    function gsb  { git status --short --branch @args }
+    function gc   { git commit --verbose @args }
+    function gcmsg { git commit --message @args }
+    function 'gc!' { git commit --verbose --amend @args }
+    function gcn  { git commit --verbose --no-edit @args }
+    function gco  { git checkout @args }
+    function gcb  { git checkout -b @args }
+    function gsw  { git switch @args }
+    function gswc { git switch --create @args }
+    function gb   { git branch @args }
+    function gba  { git branch --all @args }
+    function gbd  { git branch --delete @args }
+    function gd   { git diff @args }
+    function gds  { git diff --staged @args }
+    function gdca { git diff --cached @args }
+    function gf   { git fetch @args }
+    function gfa  { git fetch --all --tags --prune @args }
+    function gl   { git pull @args }
+    function gpr  { git pull --rebase @args }
+    function gp   { git push @args }
+    function gpf  { git push --force-with-lease --force-if-includes @args }
+    function gpsup { git push --set-upstream origin (git branch --show-current) @args }
+    function glo  { git log --oneline --decorate @args }
+    function glog { git log --oneline --decorate --graph @args }
+    function gloga { git log --oneline --decorate --graph --all @args }
+    function grh  { git reset @args }
+    function grhh { git reset --hard @args }
+    function grb  { git rebase @args }
+    function grbi { git rebase --interactive @args }
+    function grba { git rebase --abort @args }
+    function grbc { git rebase --continue @args }
+    function gsta { git stash push @args }
+    function gstp { git stash pop @args }
+    function gstl { git stash list @args }
+    function gm   { git merge @args }
+    function gcl  { git clone --recurse-submodules @args }
+}
 
 #endregion
 
