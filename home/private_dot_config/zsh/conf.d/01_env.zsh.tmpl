@@ -50,6 +50,11 @@ export COLORTERM="truecolor"
 # 1Password SSH agent (WSL bridge)
 export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 
+{{- if .work }}
+# Azure DevOps
+export AZURE_DEVOPS_EXT_PAT="{{ onepasswordRead "op://work/devops/credential" }}"
+{{- end }}
+
 # Remove broken vendor-completions path
 fpath=("${(@)fpath:#/usr/share/zsh/vendor-completions}")
 
