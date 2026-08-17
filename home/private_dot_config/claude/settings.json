@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "defaultMode": "default"
+  },
+  "enabledPlugins": {
+    "caveman@caveman": false,
+    "ck@cavekit-marketplace": false,
+    "lua-lsp@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": false
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/JuliusBrussee/caveman.git"
+      }
+    },
+    "cavekit-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "juliusbrussee/cavekit"
+      }
+    }
+  },
+  "effortLevel": "xhigh",
+  "tui": "fullscreen",
+  "theme": "auto",
+  "editorMode": "vim",
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "attribution": {
+    "commit": "",
+    "sessionUrl": false
+  }
+}
