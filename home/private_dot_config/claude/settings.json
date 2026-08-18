@@ -3,26 +3,11 @@
     "defaultMode": "default"
   },
   "enabledPlugins": {
-    "caveman@caveman": false,
-    "ck@cavekit-marketplace": false,
     "lua-lsp@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,
     "pyright-lsp@claude-plugins-official": false
   },
-  "extraKnownMarketplaces": {
-    "caveman": {
-      "source": {
-        "source": "git",
-        "url": "https://github.com/JuliusBrussee/caveman.git"
-      }
-    },
-    "cavekit-marketplace": {
-      "source": {
-        "source": "github",
-        "repo": "juliusbrussee/cavekit"
-      }
-    }
-  },
+  "extraKnownMarketplaces": {},
   "effortLevel": "xhigh",
   "tui": "fullscreen",
   "theme": "auto",
@@ -31,6 +16,12 @@
   "agentPushNotifEnabled": true,
   "attribution": {
     "commit": "",
+    "pr": "",
     "sessionUrl": false
+  },
+  "includeCoAuthoredBy": false,
+  "statusLine": {
+    "type": "command",
+    "command": "bash /home/alex/.config/claude/statusline-command.sh"
   }
 }
