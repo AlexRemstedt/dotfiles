@@ -28,6 +28,3 @@ alias tms='tmux-sessionizer'
 
 alias fd="fdfind"
 
-if (( $+commands[gh] )); then
-  alias gh="GITHUB_TOKEN= gh"
-fi
