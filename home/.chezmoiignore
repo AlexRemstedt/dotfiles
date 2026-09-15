@@ -1,8 +1,10 @@
-# GlazeWM and the PowerShell profile are Windows-only; don't deploy them on
-# Linux/WSL machines.
+# GlazeWM, Kanata, the PowerShell profile, and the Windows Terminal fragment
+# are Windows-only; don't deploy them on Linux/WSL machines.
 {{ if ne .chezmoi.os "windows" }}
 .glzr
+.config/kanata.kbd
 Documents/PowerShell
+AppData/Local/Microsoft/Windows Terminal
 {{ end }}
 
 # Mirror image: the zsh/tmux shell environment and the Linux release binaries
