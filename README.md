@@ -16,6 +16,18 @@ For shortlived one-shot configurations, use:
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --one-shot $GITHUB_USERNAME
 ```
 
+On Windows, run the equivalent from a PowerShell prompt:
+
+```powershell
+iex "&{$(irm 'https://get.chezmoi.io/ps1')} -- init --apply $GITHUB_USERNAME"
+```
+
+For shortlived one-shot configurations, use:
+
+```powershell
+iex "&{$(irm 'https://get.chezmoi.io/ps1')} -- init --one-shot $GITHUB_USERNAME"
+```
+
 ### Install chezmoi
 
 #### Linux
