@@ -25,13 +25,18 @@ AppData/Local/Microsoft/Windows Terminal
 .local/bin
 .local/share/tmux
 .local/share/quarto
-# bash setup scripts (matched by chezmoi target name, source prefixes stripped)
-install-node.sh
-install-nvim.sh
-install-python-env.sh
-install-rust.sh
-jrnl.sh
-chsh.sh
-install_packages.sh
-create_symlinks.sh
+# bash setup scripts. chezmoi files scripts under a synthetic
+# ".chezmoiscripts/" namespace, distinct from the regular target tree, so
+# ignore patterns for them need that prefix — a bare basename here silently
+# never matches, and the script still runs (and fails: no bash on Windows).
+.chezmoiscripts/install-node.sh
+.chezmoiscripts/install-nvim.sh
+.chezmoiscripts/install-python-env.sh
+.chezmoiscripts/install-rust.sh
+.chezmoiscripts/jrnl.sh
+.chezmoiscripts/chsh.sh
+.chezmoiscripts/install_packages.sh
+.chezmoiscripts/create_symlinks.sh
+.chezmoiscripts/install-gh.sh
+.chezmoiscripts/install-claude-code.sh
 {{ end }}
