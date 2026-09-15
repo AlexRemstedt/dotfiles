@@ -1,0 +1,31 @@
+(defcfg
+	process-unmapped-keys yes
+)
+
+
+(defsrc
+	caps esc a s d f j k l ;
+)
+
+(defvar
+  tap-time 250
+  hold-time 250
+)
+
+(defalias
+  amod (tap-hold-release $tap-time $hold-time a lmet)
+  smod (tap-hold-release $tap-time $hold-time s lalt)
+  dmod (tap-hold-release $tap-time $hold-time d lsft)
+  fmod (tap-hold-release $tap-time $hold-time f lctl)
+
+  jmod (tap-hold-release $tap-time $hold-time j lctl)
+  kmod (tap-hold-release $tap-time $hold-time k lsft)
+  lmod (tap-hold-release $tap-time $hold-time l lalt)
+  ;mod (tap-hold-release $tap-time $hold-time ; lmet)
+)
+
+(deflayer base
+  esc esc @amod @smod @dmod @fmod @jmod @kmod @lmod @;mod
+)
+
+;; vim: ft=lisp
