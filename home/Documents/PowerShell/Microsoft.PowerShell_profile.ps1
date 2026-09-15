@@ -28,6 +28,13 @@ $env:EDITOR = $editor
 $env:VISUAL = $editor
 $env:GIT_EDITOR = $editor
 
+# Neovim on native Windows defaults to %LOCALAPPDATA%\nvim; point it at
+# ~/.config instead so it picks up the same nvim config chezmoi deploys
+# to ~/.config/nvim on every other platform.
+if (-not $env:XDG_CONFIG_HOME) {
+    $env:XDG_CONFIG_HOME = Join-Path $HOME '.config'
+}
+
 # Keep starship's cache out of the way, matching the zsh config.
 if (-not $env:STARSHIP_CACHE) {
     $env:STARSHIP_CACHE = Join-Path $env:LOCALAPPDATA 'starship'

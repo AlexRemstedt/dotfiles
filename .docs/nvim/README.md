@@ -54,6 +54,10 @@ sudo rm -r /usr/local/share/nvim/
 
 At the moment I use [LazyVim](https://www.lazyvim.org/) for customization.
 
+Config lives at `~/.config/nvim` on every platform. Neovim on native Windows
+normally looks in `%LOCALAPPDATA%\nvim` instead — the PowerShell profile sets
+`$env:XDG_CONFIG_HOME` to `~/.config` so it finds the same config there too.
+
 Prerequisites for LazyVim are:
 
 * NeoVim (>= 0.9.0)
