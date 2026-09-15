@@ -7,25 +7,25 @@ Dotfiles managed by chezmoi.
 Then install in one line by running the following command in your terminal:
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply AlexRemstedt
 ```
 
 For shortlived one-shot configurations, use:
 
 ```sh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --one-shot $GITHUB_USERNAME
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --one-shot AlexRemstedt
 ```
 
 On Windows, run the equivalent from a PowerShell prompt:
 
 ```powershell
-iex "&{$(irm 'https://get.chezmoi.io/ps1')} -- init --apply $GITHUB_USERNAME"
+iex "&{$(irm 'https://get.chezmoi.io/ps1')} -- init --apply AlexRemstedt"
 ```
 
 For shortlived one-shot configurations, use:
 
 ```powershell
-iex "&{$(irm 'https://get.chezmoi.io/ps1')} -- init --one-shot $GITHUB_USERNAME"
+iex "&{$(irm 'https://get.chezmoi.io/ps1')} -- init --one-shot AlexRemstedt"
 ```
 
 ### Install chezmoi
