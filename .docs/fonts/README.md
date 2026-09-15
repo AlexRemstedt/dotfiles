@@ -7,20 +7,23 @@ LazyVim (nvim), starship, and eza all assume one is on the system.
 
 ## Windows
 
+Installed automatically on `chezmoi apply` via
+`home/.chezmoiscripts/run_once_after_install-fonts.ps1.tmpl`, which runs:
+
 ```powershell
-winget install --id DEVCOM.JetBrainsMonoNerdFont
+winget install --id DEVCOM.JetBrainsMonoNerdFont --silent --accept-package-agreements --accept-source-agreements
 ```
 
-or via [Scoop](https://scoop.sh):
+To install it yourself instead (e.g. no winget), use [Scoop](https://scoop.sh):
 
 ```powershell
 scoop bucket add nerd-fonts
 scoop install JetBrainsMono-NF
 ```
 
-Set it as the font in Windows Terminal (already done for the WSL profile by
-the fragment in [`.docs/windows-terminal`](../windows-terminal/README.md)) and
-in any other app you use — PowerShell ISE, VS Code, etc.
+It's already set as the font in Windows Terminal's WSL profile via the
+fragment in [`.docs/windows-terminal`](../windows-terminal/README.md); set it
+by hand in any other app you use — PowerShell ISE, VS Code, etc.
 
 ## Linux / WSL
 

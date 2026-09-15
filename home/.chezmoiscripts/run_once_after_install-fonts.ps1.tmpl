@@ -1,0 +1,15 @@
+{{ if eq .chezmoi.os "windows" -}}
+# chezmoi: run_once_after_install-fonts.ps1.tmpl
+# Install JetBrainsMono Nerd Font (see .docs/fonts) if not already present.
+
+$fontId = "DEVCOM.JetBrainsMonoNerdFont"
+
+if (Get-Command winget -ErrorAction SilentlyContinue) {
+    $installed = winget list --id $fontId --accept-source-agreements 2>$null | Select-String -SimpleMatch $fontId
+    if (-not $installed) {
+        winget install --id $fontId --silent --accept-package-agreements --accept-source-agreements
+    }
+} else {
+    Write-Warning "winget not found; install $fontId manually (see .docs/fonts)."
+}
+{{ end -}}
