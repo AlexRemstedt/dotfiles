@@ -4,6 +4,7 @@
 .glzr
 .config/kanata.kbd
 Documents/PowerShell
+Documents/WindowsPowerShell
 AppData/Local/Microsoft/Windows Terminal
 {{ end }}
 
