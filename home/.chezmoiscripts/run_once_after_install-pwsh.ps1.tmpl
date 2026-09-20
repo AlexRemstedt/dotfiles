@@ -1,0 +1,18 @@
+{{ if eq .chezmoi.os "windows" -}}
+# chezmoi: run_once_after_install-pwsh.ps1.tmpl
+# Install PowerShell 7 if not already present. The chezmoi-managed profile
+# targets pwsh (predictive IntelliSense needs PSReadLine 2.2+ / PS 7.2+); the
+# Windows PowerShell 5.1 profile just dot-sources it for parity in the
+# meantime.
+
+$packageId = "Microsoft.PowerShell"
+
+if (Get-Command winget -ErrorAction SilentlyContinue) {
+    $installed = winget list --id $packageId --accept-source-agreements 2>$null | Select-String -SimpleMatch $packageId
+    if (-not $installed) {
+        winget install --id $packageId --silent --accept-package-agreements --accept-source-agreements
+    }
+} else {
+    Write-Warning "winget not found; install $packageId manually."
+}
+{{ end -}}
