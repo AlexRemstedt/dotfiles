@@ -154,7 +154,7 @@ if (Test-Command git) {
     function gsb  { git status --short --branch @args }
     function gc   { git commit --verbose @args }
     function gcmsg { git commit --message @args }
-    function ${gc!} { git commit --verbose --amend @args }
+    ${function:gc!} = { git commit --verbose --amend @args }
     function gcn  { git commit --verbose --no-edit @args }
     function gco  { git checkout @args }
     function gcb  { git checkout -b @args }
