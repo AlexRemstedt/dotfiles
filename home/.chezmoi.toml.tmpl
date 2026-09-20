@@ -1,5 +1,3 @@
-{{ $use_secrets := promptBoolOnce . "use_secrets" "Do you want to use 1Password for secrets? (y/n)" }}
-
 {{/* boolean feature tags */}}
 {{- $ephemeral := false -}}{{/* true if this machine is ephemeral, e.g. a cloud or VM instance */}}
 {{- $work := false -}}{{/* true if this machine is a work machine */}}
