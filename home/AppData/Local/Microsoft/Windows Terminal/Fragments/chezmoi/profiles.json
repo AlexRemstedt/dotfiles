@@ -1,0 +1,39 @@
+{
+  "profiles": [
+    {
+      "updates": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+      "colorScheme": "Nord",
+      "fontFace": "JetBrainsMono Nerd Font"
+    },
+    {
+      "updates": "{d137fd2f-21a8-5a3b-a4e1-9503e19e6446}",
+      "colorScheme": "Nord",
+      "fontFace": "JetBrainsMono Nerd Font"
+    }
+  ],
+  "schemes": [
+    {
+      "name": "Nord",
+      "black": "#3B4252",
+      "red": "#BF616A",
+      "green": "#A3BE8C",
+      "yellow": "#EBCB8B",
+      "blue": "#81A1C1",
+      "purple": "#B48EAD",
+      "cyan": "#88C0D0",
+      "white": "#E5E9F0",
+      "brightBlack": "#4C566A",
+      "brightRed": "#BF616A",
+      "brightGreen": "#A3BE8C",
+      "brightYellow": "#EBCB8B",
+      "brightBlue": "#81A1C1",
+      "brightPurple": "#B48EAD",
+      "brightCyan": "#8FBCBB",
+      "brightWhite": "#ECEFF4",
+      "background": "#2E3440",
+      "foreground": "#D8DEE9",
+      "selectionBackground": "#4C566A",
+      "cursorColor": "#D8DEE9"
+    }
+  ]
+}

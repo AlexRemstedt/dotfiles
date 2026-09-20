@@ -10,12 +10,15 @@
 [gpg]
   format = ssh
 
-{{ if .work }}
+{{ if eq .chezmoi.os "windows" }}
+[gpg "ssh"]
+  program = "{{ .chezmoi.homeDir | replace "\\" "/" }}/AppData/Local/Microsoft/WindowsApps/op-ssh-sign.exe"
+{{ else if .work }}
 [gpg "ssh"]
 	program = "/mnt/c/Users/ARem/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
 {{ else }}
 [gpg "ssh"]
-  program = "/mnt/c/Users/A. Remstedt/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
+  program = "/mnt/c/Users/luna/AppData/Local/Microsoft/WindowsApps/op-ssh-sign-wsl.exe"
 {{ end }}
 
 [commit]
@@ -23,7 +26,7 @@
 {{- end }}
 
 
-{{ if .op }}
+{{ if and .op (ne .chezmoi.os "windows") }}
 [core]
   sshCommand = "/mnt/c/Windows/System32/OpenSSH/ssh.exe"
 {{ end }}

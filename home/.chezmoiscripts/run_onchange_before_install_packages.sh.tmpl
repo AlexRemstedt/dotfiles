@@ -1,23 +1,23 @@
 {{ if eq .osid "linux-ubuntu" -}}
 
 {{ $packages := list
-  "bat"
-  "btop"
-  "build-essential"
-  "curl"
-  "fd-find"
-  "feh"
-  "ffmpeg"
-  "git"
-  "libreadline-dev"
-  "ripgrep"
-  "shellcheck"
-  "tar"
-  "units"
-  "unzip"
-  "xdg-utils"
-  "zsh"
-  "gh" -}}
+"bat"
+"btop"
+"build-essential"
+"curl"
+"fd-find"
+"feh"
+"ffmpeg"
+"git"
+"libreadline-dev"
+"ripgrep"
+"shellcheck"
+"tar"
+"units"
+"unzip"
+"xdg-utils"
+"zsh"
+-}}
 
 {{ $sudo := "sudo " -}}
 {{ if eq .chezmoi.username "root" -}}
