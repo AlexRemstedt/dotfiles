@@ -2,7 +2,13 @@ general:
   # Commands to run when the WM has started. This is useful for running a
   # script or launching another application.
   # Example: The below command launches Zebar.
-  startup_commands: ["shell-exec zebar"]
+  startup_commands:
+    [
+      "shell-exec zebar",
+      # Starts VcXsrv (X server for WSL GUI apps) and makes GlazeWM tile its
+      # windows. See docs/zathura-vcxsrv.md.
+      "shell-exec conhost.exe --headless powershell.exe -NoProfile -ExecutionPolicy Bypass -File %USERPROFILE%/.glzr/glazewm/scripts/vcxsrv-watcher.ps1",
+    ]
 
   # Commands to run just before the WM is shutdown.
   # Example: The below command kills Zebar.
@@ -80,6 +86,8 @@ window_effects:
       enabled: false
       style: "square"
     transparency:
+      # Note: WSLg windows render black/garbled when transparent. WSL GUI apps
+      # use VcXsrv instead (docs/zathura-vcxsrv.md).
       enabled: true
       opacity: .95
 
@@ -158,9 +166,13 @@ window_rules:
   - commands: ["set-tiling"]
     match:
       - window_process: { equals: "zen" }
-  - commands: ["set-floating"]
+
+  # VcXsrv (X server for WSL GUI apps) windows otherwise float.
+  # See docs/zathura-vcxsrv.md.
+  - commands: ["set-tiling"]
     match:
-      - window_title: { regex: "Ubuntu" }
+      - window_process: { equals: "vcxsrv" }
+        window_class: { equals: "vcxsrv/x X rl" }
 
   - commands: ["ignore"]
     match:
