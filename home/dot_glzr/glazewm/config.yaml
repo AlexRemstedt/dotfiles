@@ -188,6 +188,9 @@ window_rules:
       # Ignore login screen
       - window_title: { regex: "Enter your username and password" }
 
+      # Ignore EduVPN
+      - window_process: { regex: "EduVPN" }
+
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
   - name: "resize"
