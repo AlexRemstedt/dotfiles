@@ -2,8 +2,7 @@ general:
   # Commands to run when the WM has started. This is useful for running a
   # script or launching another application.
   # Example: The below command launches Zebar.
-  startup_commands:
-    [
+  startup_commands: [
       "shell-exec zebar",
       # Starts VcXsrv (X server for WSL GUI apps) and makes GlazeWM tile its
       # windows. See docs/zathura-vcxsrv.md.
@@ -18,7 +17,7 @@ general:
   config_reload_commands: []
 
   # Whether to automatically focus windows underneath the cursor.
-  focus_follows_cursor: true
+  focus_follows_cursor: false
 
   # Whether to switch back and forth between the previously focused
   # workspace when focusing the current workspace.
