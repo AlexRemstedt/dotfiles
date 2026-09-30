@@ -207,23 +207,23 @@ binding_modes:
 keybindings:
   # Shift focus in a given direction.
   - commands: ["focus --direction left"]
-    bindings: ["alt+h"]
+    bindings: ["ctrl+alt+h"]
   - commands: ["focus --direction right"]
-    bindings: ["alt+l"]
+    bindings: ["ctrl+alt+l"]
   - commands: ["focus --direction up"]
-    bindings: ["alt+k"]
+    bindings: ["ctrl+alt+k"]
   - commands: ["focus --direction down"]
-    bindings: ["alt+j"]
+    bindings: ["ctrl+alt+j"]
 
   # Move focused window in a given direction.
   - commands: ["move --direction left"]
-    bindings: ["alt+shift+h"]
+    bindings: ["ctrl+alt+shift+h"]
   - commands: ["move --direction right"]
-    bindings: ["alt+shift+l"]
+    bindings: ["ctrl+alt+shift+l"]
   - commands: ["move --direction up"]
-    bindings: ["alt+shift+k"]
+    bindings: ["ctrl+alt+shift+k"]
   - commands: ["move --direction down"]
-    bindings: ["alt+shift+j"]
+    bindings: ["ctrl+alt+shift+j"]
 
   # Resize focused window by a percentage or pixel amount.
   - commands: ["resize --width -2%"]
