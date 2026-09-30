@@ -142,10 +142,6 @@ window_rules:
     match:
       - window_process: { equals: "zen" }
 
-  - commands: ["set-tiling"]
-    match:
-      - window_process: { equals: "zen" }
-
   - commands: ["move --workspace 4", "focus --workspace 4"]
     match:
       - window_process: { regex: "^[Oo]bsidian" }
@@ -158,6 +154,13 @@ window_rules:
   - commands: ["move --workspace 9", "focus --workspace 9"]
     match:
       - window_title: { equals: "Task Manager" }
+
+  - commands: ["set-tiling"]
+    match:
+      - window_process: { equals: "zen" }
+  - commands: ["set-floating"]
+    match:
+      - window_title: { regex: "Ubuntu" }
 
   - commands: ["ignore"]
     match:
@@ -178,15 +181,11 @@ window_rules:
         window_class: { regex: "HwndWrapper" }
 
       # Ignore windows started from wsl (linux)
-      - window_title: { regex: "Ubuntu" }
-
-      # Ignore login screen
       - window_title: { regex: "Enter your username and password" }
-
-      # Ignore f.lux
-      - window_process: { equals: "^f.lux" }
-      # Ignore EduVPN
       - window_process: { regex: "EduVPN" }
+
+      # Let f.lux manage its own window position.
+      - window_process: { equals: "flux" }
 
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
