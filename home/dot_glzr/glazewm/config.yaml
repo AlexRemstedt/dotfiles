@@ -183,6 +183,8 @@ window_rules:
       # Ignore login screen
       - window_title: { regex: "Enter your username and password" }
 
+      # Ignore f.lux
+      - window_process: { equals: "^f.lux" }
       # Ignore EduVPN
       - window_process: { regex: "EduVPN" }
 
