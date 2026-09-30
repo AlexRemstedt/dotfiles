@@ -55,6 +55,15 @@ export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 export AZURE_DEVOPS_EXT_PAT="{{ onepasswordRead "op://work/devops/credential" }}"
 
 {{- end }}
+# WSL GUI apps: use VcXsrv (Windows X server, started by GlazeWM) instead of
+# WSLg, so GlazeWM can tile them. Falls back to WSLg if VcXsrv isn't reachable.
+# See C:\Users\luna\.glzr\glazewm\docs\zathura-vcxsrv.md.
+if _xdisplay=$(~/.local/bin/wsl-xdisplay); then
+  export DISPLAY=$_xdisplay GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb
+  unset WAYLAND_DISPLAY
+fi
+unset _xdisplay
+
 # Remove broken vendor-completions path
 fpath=("${(@)fpath:#/usr/share/zsh/vendor-completions}")
 

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Prints the VcXsrv DISPLAY (Windows host :0) when running in WSL and VcXsrv is
+# reachable; exits 1 otherwise. Used by zsh (01_env.zsh) and tmux (tmux.conf).
+# See C:\Users\luna\.glzr\glazewm\docs\zathura-vcxsrv.md.
+[[ -n $WSL_DISTRO_NAME ]] || exit 1
+host=$(ip route show default | awk '{print $3; exit}')
+timeout 0.2 bash -c "echo > /dev/tcp/$host/6000" 2>/dev/null || exit 1
+echo "$host:0"

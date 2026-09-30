@@ -73,5 +73,11 @@ set -g @pomodoro_notifications 'off'            # Enable desktop notifications f
 set -g @pomodoro_granularity 'on'              # Enables MM:SS (ex: 00:10) format instead of the default (ex: 1m)
 {{- end }}
 
+# WSL: point GUI apps at VcXsrv in panes started without a shell (e.g. nvim
+# restored by tmux-resurrect), which inherit tmux's global environment.
+# DISPLAY is dropped from update-environment so an attaching client's WSLg
+# DISPLAY=:0 can't override it per session.
+run-shell 'd=$(~/.local/bin/wsl-xdisplay) && tmux set-environment -g DISPLAY "$d" \; set-environment -g GDK_BACKEND x11 \; set-environment -g QT_QPA_PLATFORM xcb \; set-environment -gu WAYLAND_DISPLAY \; set-option -g update-environment "KRB5CCNAME MSYSTEM SSH_ASKPASS SSH_AUTH_SOCK SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY" || true'
+
 # Initialize TPM (keep at bottom)
 run '~/.local/share/tmux/plugins/tpm/tpm'
