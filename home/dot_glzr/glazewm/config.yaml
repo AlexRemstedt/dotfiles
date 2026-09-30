@@ -110,18 +110,14 @@ window_behavior:
 workspaces:
   - name: "1"
     keep_alive: true
-    bind_to_monitor: 1
   - name: "2"
     keep_alive: true
-    bind_to_monitor: 1
-    display_name: "wsl"
+    display_name: "term"
   - name: "3"
     keep_alive: true
-    bind_to_monitor: 0
     display_name: "zen"
   - name: "4"
     keep_alive: true
-    bind_to_monitor: 1
     display_name: "obs"
   - name: "5"
   - name: "6"
