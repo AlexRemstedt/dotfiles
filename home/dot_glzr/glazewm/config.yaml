@@ -137,7 +137,6 @@ workspaces:
 window_rules:
   - commands: ["move --workspace 1"]
     match:
-      - window_title: { regex: "^1[Pp]assword" }
       - window_title: { regex: "[Zz]otero" }
       - window_title: { regex: "^[Cc]laude$" }
   - commands: ["move --workspace 2", "focus --workspace 2"]
