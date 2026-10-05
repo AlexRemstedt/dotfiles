@@ -27,4 +27,11 @@ alias nvu='update_neovim_plugins.sh'
 alias tms='tmux-sessionizer'
 
 alias fd="fdfind"
+{{- if .work }}
+
+# Work machine: route claude through the Allseas Foundry wrapper.
+alias claude="claude-allseas"
+{{- end }}
+
+# vim: ft=zsh
 
