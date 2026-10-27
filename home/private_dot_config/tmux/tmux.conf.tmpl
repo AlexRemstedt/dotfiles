@@ -53,8 +53,8 @@ set -g @pomodoro_toggle 'P'                    # Start/pause a Pomodoro/break
 set -g @pomodoro_cancel 'X'                    # Cancel the current session
 set -g @pomodoro_skip '_'                      # Skip a Pomodoro/break
 
-set -g @pomodoro_mins 50                       # The duration of the Pomodoro
-set -g @pomodoro_break_mins 10                  # The duration of the break after the Pomodoro completes
+set -g @pomodoro_mins 25                       # The duration of the Pomodoro
+set -g @pomodoro_break_mins 5                  # The duration of the break after the Pomodoro completes
 set -g @pomodoro_intervals 3                   # The number of intervals before a longer break is started
 set -g @pomodoro_long_break_mins 25            # The duration of the long break
 set -g @pomodoro_repeat 'off'                  # Automatically repeat the Pomodoros?
@@ -81,3 +81,4 @@ run-shell 'd=$(~/.local/bin/wsl-xdisplay) && tmux set-environment -g DISPLAY "$d
 
 # Initialize TPM (keep at bottom)
 run '~/.local/share/tmux/plugins/tpm/tpm'
+# vim:ft=tmux
