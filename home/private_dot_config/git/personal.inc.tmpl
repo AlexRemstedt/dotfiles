@@ -1,0 +1,4 @@
+# Personal identity. Applied by includeIf in config.
+[user]
+  email = {{ onepasswordRead "op://development/github/email" }}
+  signingkey = {{ onepasswordRead "op://development/personal-machine/public key" | trim }}

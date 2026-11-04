@@ -1,0 +1,4 @@
+# Work identity. Applied by includeIf in config.
+[user]
+  email = {{ onepasswordRead "op://work/github/email" }}
+  signingkey = {{ onepasswordRead "op://work/work-machine/public key" | trim }}

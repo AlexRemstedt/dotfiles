@@ -41,3 +41,12 @@ AppData/Local/Microsoft/Windows Terminal
 .chezmoiscripts/install-gh.sh
 .chezmoiscripts/install-claude-code.sh
 {{ end }}
+
+# Per-folder git identities need 1Password. The work vault only exists on
+# work machines.
+{{ if .ephemeral }}
+.config/git/personal.inc
+{{ end }}
+{{ if not .work }}
+.config/git/work.inc
+{{ end }}

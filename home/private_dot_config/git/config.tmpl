@@ -1,9 +1,23 @@
 
 [user]
   name = Remstedt, Alex
+
 {{- if not .ephemeral }}
-  email = {{ .gitEmail }}
-  signingkey = {{ .sshPublicKey }}
+{{/* One email and one signing key per folder. The trailing slash is required. */}}
+{{- if .work }}
+[includeIf "gitdir:~/proj/"]
+  path = work.inc
+{{- end }}
+[includeIf "gitdir:~/personal/"]
+  path = personal.inc
+{{/* The chezmoi repo auto-commits, so it needs an identity too. */}}
+[includeIf "gitdir:{{ .chezmoi.workingTree }}/"]
+  path = {{ if .work }}work{{ else }}personal{{ end }}.inc
+{{/* GitHub always gets the personal identity, in any folder. Last include wins. */}}
+[includeIf "hasconfig:remote.*.url:git@github.com:*/*"]
+  path = personal.inc
+[includeIf "hasconfig:remote.*.url:https://github.com/*/*"]
+  path = personal.inc
 {{- end }}
 
 {{- if not .ephemeral }}
