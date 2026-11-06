@@ -54,8 +54,10 @@
   command = "nvim"
 
 {{- if not $ephemeral }}
-[github]
-  token = {{ onepasswordRead $chezmoi_token | quote }}
+# chezmoi has no github.token option. It reads the token only from this
+# environment variable. The [env] section sets it for each chezmoi run.
+[env]
+  CHEZMOI_GITHUB_ACCESS_TOKEN = {{ onepasswordRead $chezmoi_token | quote }}
 {{- end }}
 
 [data]
