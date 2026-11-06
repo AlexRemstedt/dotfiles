@@ -1,0 +1,21 @@
+# ripgrep configuration
+# One flag per line. Lines that start with "#" are comments.
+
+# Use smart case: match case only if the pattern has upper-case letters.
+--smart-case
+
+# Search hidden files and directories.
+--hidden
+
+# Do not search in these directories.
+--glob=!.git/
+--glob=!node_modules/
+--glob=!.venv/
+--glob=!__pycache__/
+
+# Follow symbolic links.
+--follow
+
+# Limit the length of a printed line.
+--max-columns=200
+--max-columns-preview
