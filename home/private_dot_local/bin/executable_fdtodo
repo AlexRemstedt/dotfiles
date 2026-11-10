@@ -8,7 +8,7 @@
 # If it finds the todo file it will open it in a new tmux window
 # else it will create a new one at the present working directory
 
-TODO_EDITOR=vim
+TODO_EDITOR=nvim
 
 try_todo_file() {
   local dir="$1"

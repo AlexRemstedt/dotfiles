@@ -1,27 +1,44 @@
 {
-  "permissions": {
-    "defaultMode": "default"
-  },
-  "enabledPlugins": {
-    "lua-lsp@claude-plugins-official": true,
-    "claude-code-setup@claude-plugins-official": true,
-    "pyright-lsp@claude-plugins-official": false
-  },
-  "extraKnownMarketplaces": {},
-  "effortLevel": "xhigh",
-  "tui": "fullscreen",
-  "theme": "auto",
-  "editorMode": "vim",
-  "remoteControlAtStartup": true,
-  "agentPushNotifEnabled": true,
   "attribution": {
     "commit": "",
     "pr": "",
     "sessionUrl": false
   },
   "includeCoAuthoredBy": false,
+  "permissions": {
+    "defaultMode": "default"
+  },
+  "model": "haiku",
   "statusLine": {
     "type": "command",
     "command": "bash /home/alex/.config/claude/statusline-command.sh"
-  }
+  },
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": false,
+    "graphify@dead-claude-skills": true
+  },
+  "extraKnownMarketplaces": {
+    "dead-claude-skills": {
+      "source": {
+        "source": "github",
+        "repo": "deadmade/dead-claude-skills"
+      }
+    }
+  },
+  "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "medium"
+    },
+    "claude-haiku-4-5": {
+      "effortLevel": "low"
+    }
+  },
+  "tui": "fullscreen",
+  "theme": "auto",
+  "editorMode": "vim",
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true
 }
