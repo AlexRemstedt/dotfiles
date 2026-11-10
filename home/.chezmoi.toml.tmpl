@@ -43,7 +43,8 @@
 {{- end -}}
 
 [onepassword]
-  command = "op.exe"
+  # Wrapper that retries op.exe. The desktop app rejects rapid calls.
+  command = "{{ .chezmoi.workingTree }}/bin/op-retry.sh"
   defaultVault = {{ $op_vault | quote }}
 
 [git]
@@ -56,8 +57,9 @@
 {{- if not $ephemeral }}
 # chezmoi has no github.token option. It reads the token only from this
 # environment variable. The [env] section sets it for each chezmoi run.
+# Do not use a CHEZMOI_ name here. chezmoi warns on each run for those.
 [env]
-  CHEZMOI_GITHUB_ACCESS_TOKEN = {{ onepasswordRead $chezmoi_token | quote }}
+  GITHUB_ACCESS_TOKEN = {{ onepasswordRead $chezmoi_token | quote }}
 {{- end }}
 
 [data]
