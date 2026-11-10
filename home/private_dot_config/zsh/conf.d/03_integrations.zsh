@@ -18,6 +18,22 @@ compinit -Cd "${XDG_CACHE_HOME}/zsh/zcompdump"
 
 (( $+commands[git-flow] )) && eval "$(git-flow completion zsh)"
 
+# lazygit: if you change the repo inside lazygit, the shell follows.
+# lazygit writes the new path to LAZYGIT_NEW_DIR_FILE on exit.
+if (( $+commands[lazygit] )); then
+  lg() {
+    export LAZYGIT_NEW_DIR_FILE="${XDG_CACHE_HOME:-${HOME}/.cache}/lazygit/newdir"
+    mkdir -p "${LAZYGIT_NEW_DIR_FILE:h}"
+
+    lazygit "$@"
+
+    if [[ -f "$LAZYGIT_NEW_DIR_FILE" ]]; then
+      cd "$(cat "$LAZYGIT_NEW_DIR_FILE")"
+      rm -f "$LAZYGIT_NEW_DIR_FILE" > /dev/null
+    fi
+  }
+fi
+
 # Node
 if (( $+commands[fnm] )); then
   [[ -d "/run/user/${UID}" ]] || export XDG_RUNTIME_DIR="/tmp/runtime-${UID}"
