@@ -14,10 +14,6 @@
 [includeIf "gitdir:{{ .chezmoi.workingTree }}/"]
   path = {{ if .work }}work{{ else }}personal{{ end }}.inc
 {{/* GitHub always gets the personal identity, in any folder. Last include wins. */}}
-[includeIf "hasconfig:remote.*.url:git@github.com:*/*"]
-  path = personal.inc
-[includeIf "hasconfig:remote.*.url:https://github.com/*/*"]
-  path = personal.inc
 {{- end }}
 
 {{- if not .ephemeral }}
