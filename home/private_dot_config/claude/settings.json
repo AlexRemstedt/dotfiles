@@ -6,9 +6,12 @@
   },
   "includeCoAuthoredBy": false,
   "permissions": {
-    "defaultMode": "default"
+    "defaultMode": "acceptEdits"
   },
   "model": "haiku",
+  "worktree": {
+    "baseRef": "fresh"
+  },
   "statusLine": {
     "type": "command",
     "command": "bash /home/alex/.config/claude/statusline-command.sh"
@@ -39,6 +42,7 @@
   "tui": "fullscreen",
   "theme": "auto",
   "editorMode": "vim",
+  "terminalProgressBarEnabled": true,
   "remoteControlAtStartup": true,
   "agentPushNotifEnabled": true
 }
